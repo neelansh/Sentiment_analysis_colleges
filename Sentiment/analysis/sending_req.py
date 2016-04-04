@@ -2,7 +2,7 @@ import requests
 import json
 
 
-TOKEN = 'EAACEdEose0cBAOf61TUL0Rusp731Qv9fXrcs5ul9DvZCntYA9FjOzgATtfN1tdAr8HbCnZC7b5tkjv4umfjxCWt2zdhwnLTyLNs8KHePy1lSfWgZCHJA8I2Aa2pCBSjPVeHIY43JfCYHq6cdgNG1yfrv0MFxZBO5cZCvPSM4b6AZDZD'
+TOKEN = 'EAACEdEose0cBAPzjRiAaWQicONvcg7dKzNIPs7zku0sQYZCTno36IKU1yZA3i7c0h68VU5VZC875HklH76uxqYnpPnC2tVlJAxSrYaAeZAIxbf7ejd1RRu4CqXI6waXSE1YZCdMT3vt84qrZCZB3vZBHzOIT5oXTbqZAt3zUZCP2ZASqQZDZD'
 
 def get_posts(query):
 	url = "https://graph.facebook.com/search?q="+query+"&type=page&limit=5"
@@ -10,13 +10,16 @@ def get_posts(query):
 	r = requests.get(url, params = parameters)
 	result = json.loads(r.text)
 	# print(result["data"])
+	ids = []
+	likes = []
 
 	for res in result["data"]:
-		print res["id"].encode('utf-8')
+		print(res["id"])
+		ids.append(res["id"])
 		engagementUrl = 'https://graph.facebook.com/' + res["id"] + '/?fields=engagement';
 		q = requests.get(engagementUrl, params = parameters)
 		engagementData = json.loads(q.text)
-		print "Likes  = " + engagementData["engagement"]["count"]
+		# print("Likes  = " + str(engagementData["engagement"]["count"]))
+		likes.append("Likes  = " + str(engagementData["engagement"]["count"]))
+	return {"id" : ids , 'likes' : likes}
 
-
-get_posts("igdtu")
