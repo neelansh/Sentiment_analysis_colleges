@@ -5,9 +5,7 @@ import requests
 import json
 
 TOKEN = \
-    'EAACEdEose0cBAHJ2uEee0KABv6vW7QgoX0g2wlDs5bf9pnrPS7JApYgJfm8cbAbdiBAfdQcATHHp2L4Wrttm6kjIvJUzhpNUA6Yi6EukZCtPInVkdyW8GvFtbvFM3U0BtZAP8OHMsQZAyzysFYyJXTYBtxdAFNhyHZB7flfGGgZDZD'
-f = open('result.js', 'w')
-
+    'EAACEdEose0cBAMZBE9YmhBSqljCVfp9OW38CLIw1DgRNg8Oo4CWEI2N8AYNPwP0sWHWDpBQx2I0p1DlEVdnylpjIIv9CLDI0X9zn2JAqHJFCK1OZCESGbbtlfZC09kUHvpRzjnHUg1XxYbPpswS5Qys5h8cCDamWjitKuERJQZDZD'
 
 
 def get_posts(query, collegeData):
@@ -33,17 +31,17 @@ def get_posts(query, collegeData):
             #print engagementUrl
                 q = requests.get(engagementUrl, params=parameters)
 
-
-                with open('data.txt', 'a') as outfile:
+                with open('data.json', 'a') as outfile:
                     json.dump(json.loads(q.text), outfile)
-                collegeData += str(json.loads(q.text))
+
+                #collegeData += json.loads(q.text)
                 break
                 # print str(engagementData)
                 # print("Likes  = " + str(engagementData["engagement"]
                 # likes.append("Likes  = " + str(engagementData["engagement"]["count"]))
 
 
-    f.write(collegeData)
+    #f.write(collegeData)
             # return {"id" : ids , 'likes' : likes}
 
-get_posts('mit', ' ')
+get_posts('mit', {})
