@@ -5,10 +5,10 @@ import requests
 import json
 
 TOKEN = \
-    'EAACEdEose0cBAEWArZCAn2ziUlAQsrWGiVahAEd4CVCoFhTbSRnVrk0r1ZCqaN4g0r09XyVauaKtpxImrJsfUbYDp5P8b56nQXHZAWun38ZB3nJhn9jGMqQJULZBCDyPj4yR7IyARmWsfkQYewX1JJtsbHUWOLdrsfnx1BmQZCnAZDZD'
+    'EAACEdEose0cBAHJ2uEee0KABv6vW7QgoX0g2wlDs5bf9pnrPS7JApYgJfm8cbAbdiBAfdQcATHHp2L4Wrttm6kjIvJUzhpNUA6Yi6EukZCtPInVkdyW8GvFtbvFM3U0BtZAP8OHMsQZAyzysFYyJXTYBtxdAFNhyHZB7flfGGgZDZD'
 f = open('result.js', 'w')
 
-resultArr=[];
+
 
 def get_posts(query, collegeData):
 
@@ -22,24 +22,26 @@ def get_posts(query, collegeData):
     # ids = []
     # likes = []
     print str(result)
+
     for res in result['data']:
-        if res['category'] == 'Education':
+        if res['category']:
+            if  res['category'] == 'Education' :
             # res['id']
-            engagementUrl = 'https://graph.facebook.com/' + res['id'] \
-            + '/?fields=name,posts.limit(4){name,likes},engagement'
+                #print res['category_list'][0]['name']
+                engagementUrl = 'https://graph.facebook.com/' + res['id'] \
+                + '/?fields=name,posts.limit(4){name,likes.limit(100)},engagement,category'
             #print engagementUrl
-            q = requests.get(engagementUrl, params=parameters)
+                q = requests.get(engagementUrl, params=parameters)
 
 
-            collegeData += str(json.loads(q.text))
+                collegeData += str(json.loads(q.text))
 
                 # print str(engagementData)
                 # print("Likes  = " + str(engagementData["engagement"]
                 # likes.append("Likes  = " + str(engagementData["engagement"]["count"]))
-            f.write(collegeData)
 
 
-
+    f.write(collegeData)
             # return {"id" : ids , 'likes' : likes}
 
 get_posts('usict', ' ')
