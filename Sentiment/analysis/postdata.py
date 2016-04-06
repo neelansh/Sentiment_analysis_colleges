@@ -26,7 +26,7 @@ def get_posts(query, collegeData):
         if res['category'] == 'Education':
             # res['id']
             engagementUrl = 'https://graph.facebook.com/' + res['id'] \
-            + '/?fields=name,posts.limit(4){name,likes.limit(50)},engagement'
+            + '/?fields=name,posts.limit(4){name,likes},engagement'
             #print engagementUrl
             q = requests.get(engagementUrl, params=parameters)
 
