@@ -29,13 +29,15 @@ def get_posts(query, collegeData):
             # res['id']
                 #print res['category_list'][0]['name']
                 engagementUrl = 'https://graph.facebook.com/' + res['id'] \
-                + '/?fields=name,posts.limit(4){name,likes.limit(100)},engagement,category'
+                + '/?fields=name,posts.limit(4){name,likes},engagement,category'
             #print engagementUrl
                 q = requests.get(engagementUrl, params=parameters)
 
 
+                with open('data.txt', 'a') as outfile:
+                    json.dump(json.loads(q.text), outfile)
                 collegeData += str(json.loads(q.text))
-
+                break
                 # print str(engagementData)
                 # print("Likes  = " + str(engagementData["engagement"]
                 # likes.append("Likes  = " + str(engagementData["engagement"]["count"]))
@@ -44,4 +46,4 @@ def get_posts(query, collegeData):
     f.write(collegeData)
             # return {"id" : ids , 'likes' : likes}
 
-get_posts('usict', ' ')
+get_posts('mit', ' ')
