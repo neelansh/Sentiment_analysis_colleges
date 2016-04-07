@@ -15,7 +15,6 @@ def print_page(pages):
         print(page['category'])
 
 def get_posts(query, collegeData):
-
     url = 'https://graph.facebook.com/search?q=' + query \
         + '&type=page&limit=5'
     parameters = {'access_token': TOKEN}

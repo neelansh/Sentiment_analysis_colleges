@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 from .postdata import get_posts
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from .models import pages
 
 # Create your views here.
 @csrf_exempt
@@ -13,7 +14,9 @@ def home(request):
 		return render(request , "analysis/home.html")
 	else:
 		get_posts(request.POST.get("college_name" , "") , '')
-		# return render(request , "analysis/display.html" , result)
-		return HttpResponse("<p>it ran seems ok</p>")
+		context = { 'pages' : pages.objects.all(),
+					'institute_name': request.POST.get('college_name' , '') }
+		return render(request , "analysis/display.html" , context)
+		# return HttpResponse("<p>it ran seems ok</p>")
 
 

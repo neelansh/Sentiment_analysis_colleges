@@ -1,8 +1,10 @@
 {% extends "common/base.html" %}
 {% block content %}
-<form action = '{% url "home" %}' method = "POST">
-	<input name = "college_name" type = "text" placeholder = "enter name of college">
-	<input type = "submit">
-</form>
+<div class = "container">
+	<form action = '{% url "home" %}' method = "POST">
+		<input name = "college_name" type = "text" placeholder = "enter name of college">
+		<input type = "submit">
+	</form>
+</div>
 
 {% endblock %}

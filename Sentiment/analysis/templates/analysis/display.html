@@ -1,7 +1,7 @@
 {% extends "common/base.html" %}
 
 {% block content %}
-{% for page_id in id %}
+<!-- {% for page_id in id %}
 	<ul>
 		<li>{{ page_id }}</li>
 	</ul>
@@ -10,5 +10,26 @@
 	<ul>
 		<li>{{ page_likes }}</li>
 	</ul>
-{% endfor %}
+{% endfor %} -->
+<div class = "container">
+	<div id = "data_display">
+		<h1>total number of page likes are : </h1>
+		<h1>Sentiment of the page is: </h1>
+
+	</div>
+	<div class = "wordle">
+		<h2>wordle representation of the posts related to {{ institute_name }}:</h2>
+
+	</div>
+
+
+</div>
+
+<script type="text/javascript">
+	var total_pagelikes = 0
+	{% for page in pages %}
+		total_pagelikes = total_pagelikes + page.page_likes
+	{% endfor %}
+
+</script>
 {% endblock %}
