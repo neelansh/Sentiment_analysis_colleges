@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBAEnsPGLRAyNngZBkkH5gbbqh8ySqPq4ItoP0ZAoyICJHB3uys5v1LDogJhecZAB133hPfmO4y9WHf7iFjxVacd7qqV0CcXESEdIwXj247peCYitZBEZAJprulZAus2w4frt0Tu79S9xRZAHcIoZA2W8p8DjrcQVwZAAZDZD'
+    'EAACEdEose0cBABt5TTRpG58Te7uXwdewIhW0IV1e5DM1joLR9D6H0ZCUAD3FLHAfoTkMhM0NYZA5ccXiOX6QLJsiuUtSUUU1ok0HsIsauL8xpE0nm6NiniafFI5Xmon1PxC5lDqvEjh4VVNa0i3pXLTE3OL5HBQwCaO0KT1gZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
@@ -17,7 +17,7 @@ def print_page(pages):
 
 def get_posts(query):
 
-    url = 'https://graph.facebook.com/search?q=' + query \
+    url = 'https://graph.facebook.com/search?q=' + query.replace(" " , "+") \
         + '&type=page&limit=3'
     parameters = {'access_token': TOKEN}
     r = requests.get(url, params=parameters)
