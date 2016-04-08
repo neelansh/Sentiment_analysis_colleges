@@ -7,5 +7,6 @@ class pages(models.Model):
 	page_category = models.CharField(max_length = 100 , default='')
 	page_posts_json = models.TextField(max_length=2048 , default='')
 	page_likes = models.IntegerField()
+	page_json = models.TextField(max_length = 2000 , default = "")
 	def __str__(self):
 		return self.page_name

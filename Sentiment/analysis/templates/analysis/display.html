@@ -26,10 +26,17 @@
 </div>
 
 <script type="text/javascript">
-	var total_pagelikes = 0
-	{% for page in pages %}
-		total_pagelikes = total_pagelikes + page.page_likes
-	{% endfor %}
 
+	$(document).ready(function(){
+		var data = {{ json_obj|safe }};
+		console.log(data)
+		// var json_array = {{ json_obj|safe }};
+		// console.log(json_array)
+		// console.log(JSON.parse(json_array['data'][1]));
+		// for(var i=0 ; i<json_array.length ; ++i){
+		// 	console.log(json_array['data'][i]);
+		// };
+
+	});
 </script>
 {% endblock %}
