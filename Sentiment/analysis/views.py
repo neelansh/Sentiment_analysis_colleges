@@ -4,9 +4,10 @@ from django.views.decorators.http import require_http_methods
 from .postdata import get_posts
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import pages
+from .models import pages, twitter
 import json
 from json import JSONEncoder
+from .twt import get_tweets
 
 # Create your views here.
 @csrf_exempt
@@ -15,17 +16,14 @@ def home(request):
 	if(request.method == "GET"):
 		return render(request , "analysis/home.html")
 	else:
-		get_posts(request.POST.get("college_name" , "") , '')
+		get_posts(request.POST.get("college_name" , ""))
+		get_tweets(request.POST.get("college_name" , ""))
 		context = { 'pages' : pages.objects.all(),
 					'institute_name': request.POST.get('college_name' , ''), 
 					'number_of_pages' : pages.objects.all().count(),
-					'json_obj': get_json_array()}
-		# i=0;
-		# for page in pages.objects.all():
-		# 	context['json_obj' + str(i)] = page.page_json
-		# 	++i
+					'json_obj': get_json_array(),
+					'tweet_json': json.loads(twitter.objects.all()[0].twitter_json)}
 		return render(request , "analysis/display.html" , context)
-		# return HttpResponse("<p>it ran seems ok</p>")
 
 def get_json_array():
 	res = []

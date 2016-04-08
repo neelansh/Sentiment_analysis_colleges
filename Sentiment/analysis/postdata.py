@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBAAsoCo6lDdJs0RxOgmZBmCGOyWX9sKtHZAIfQ0gncjgz2Fwe4NQCvjxXofefoabmp6VjN0mGFYzYeY74ZAPl9yw5WXPFjfF94O5DnstLt6t1w7gGmHWM22YviOqpEN38vXL2dXPV9CkVMGto8DuPseZAJ9FZB6AZDZD'
+    'EAACEdEose0cBAEnsPGLRAyNngZBkkH5gbbqh8ySqPq4ItoP0ZAoyICJHB3uys5v1LDogJhecZAB133hPfmO4y9WHf7iFjxVacd7qqV0CcXESEdIwXj247peCYitZBEZAJprulZAus2w4frt0Tu79S9xRZAHcIoZA2W8p8DjrcQVwZAAZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
@@ -15,7 +15,7 @@ def print_page(pages):
         print(page['name'])
         print(page['category'])
 
-def get_posts(query, collegeData):
+def get_posts(query):
 
     url = 'https://graph.facebook.com/search?q=' + query \
         + '&type=page&limit=3'
@@ -23,9 +23,6 @@ def get_posts(query, collegeData):
     r = requests.get(url, params=parameters)
     result = json.loads(r.text)
 
-    # print(result["data"])
-    # ids = []
-    # likes = []
     return_pages = {'data':[]}
     print_page(result)
     pages.objects.all().delete()

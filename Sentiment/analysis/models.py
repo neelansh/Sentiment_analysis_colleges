@@ -10,3 +10,7 @@ class pages(models.Model):
 	page_json = models.TextField(max_length = 2000 , default = "")
 	def __str__(self):
 		return self.page_name
+
+
+class twitter(models.Model):
+	twitter_json = models.TextField(max_length = 2000 , default = "")
