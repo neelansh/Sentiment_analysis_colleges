@@ -1,6 +1,4 @@
-{% extends "common/base.html" %}
-
-{% block content %}
+{% extends "common/base.html" %} {% block content %}
 <!-- {% for page_id in id %}
 	<ul>
 		<li>{{ page_id }}</li>
@@ -12,17 +10,108 @@
 	</ul>
 {% endfor %} -->
 
+<style media="screen">
+	#data_display{
+		font-family: 'PT Sans';
+		font-size: 14px !important;
+		letter-spacing: 1px;
+		text-indent: 1px;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
 
-<div class = "container">
-	<div id = "data_display">
-		<h1>Sentiment of the page is: </h1>
-		<h1>total likes: {{ total_likes }} total posts: {{ total_posts }}</h1>
-		<h1>total retweets: {{ total_retweet_count }} total tweets : {{ total_tweets }}</h1>
-	</div>
-	<div class = "wordle">
-		<h2>wordle representation of the posts related to {{ institute_name }}:</h2>
+	.result-title{
+		font-family: 'PT Sans';
+		font-size: 14px !important;
+		letter-spacing: 1px;
+		text-indent: 1px;
+		font-weight: 900;
+		text-transform: uppercase;
+	}
+	.college_name{
+		border-left:6px crimson solid;
+		font-family: Roboto;
+		font-weight: 900;
+		font-size: 24px;
+		padding: 20px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+	}
+	.sentiment{
+		padding:20px;
+
+	}
+
+.result{
+	font-family: "Roboto";
+	font-size: 18px;
+	color:#1a237e;
+	font-weight: 900;
+	letter-spacing: 3px;
+	text-indent: 3px;
+	text-transform: uppercase;
+}
+	.result-title{
+		font-size:24px !important;
+	}
+	.wordle{
+		font-family: 'PT Sans';
+		font-size: 14px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		text-indent: 1px;
+		font-weight: 600;
+	}
+	.smiley{
+		font-size: 40px !important;
+		color:#d50000;
+	}
+	.wordCloud{
+		padding-top: 5em;
+
+	}
+</style>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div id="data_display">
+				<div class="college_name">
+					{{institute_name}}
+				</div>
+				total number of Facebook page likes are : {{total_likes}}
+
+
+			</div>
+
 
 	</div>
+	<div class="col-md-6">
+		<div class="sentiment">
+			<div class="result-title">
+				SENTIMENT ANALAYSIS RESULT
+			</div>
+				<div class="result">
+					POSITIVE <i class="smiley fa fa-smile-o"></i>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+<div class="row">
+	<div class="wordCloud">
+		<center>
+		<div class="wordle">
+	<span id="wordle">WORD CLOUD</span> representation of the tweets with #{{ institute_name }}:
+
+	</div>
+		<div class="hey" id="keywords">
+
+		</div>
+	</div>
+</div>
 
 
 </div>
@@ -30,30 +119,144 @@
 
 
 <script type="text/javascript">
-
-	$(document).ready(function(){
+	$(document).ready(function() {
 		var False = false;
 		var True = true;
 		var None = null;
 		//var facebook_data = {{ json_obj|safe }};
 		var twitter_data = {{ tweet_json|safe }};
 		//console.log(facebook_data);
-		console.log(twitter_data);
-		var fb_data  = {{ posts_text | safe }}
+		//console.log(twitter_data);
+		var fb_data = {{posts_text | safe}}
+
 		console.log(fb_data)
+		var positive = 0;
+		var negative = 0;
+	  var count = 0 ;
+		var totalposts = fb_data.length * 5;
+		fb_data.forEach(function(data) {
+			data.forEach(function(post){
+			//	console.log(post.message)
+			/**	$.ajax({
+					url: "https://community-sentiment.p.mashape.com/text/",
+					method: "POST",
+					data: {
+						txt: post.message
+					},
+					success: function(data) {
+						console.log(data);
+						if(data.result.sentiment=='Positive'){
+							positive++;
+							console.log(positive);
+						}
+						else {
+							negative++;
+							console.log(negative);
+						}
+						count++;
+					//	console.log(count);
+						//console.log(totalposts);
+						if(count==totalposts-1){
+					//		console.log("In If")
+							if(positive>negative){
+						//		console.log('P');
+								$('.result').html('POSITIVE <i class="smiley fa fa-smile-o"></i>');
+							}
+							else if(positive<negative){
+							//	console.log('N');
+								$('.result').html('NEGATIVE <i class="smiley fa fa-frown-o"></i>');
+							}
+							else if(positive==negative){
+							//	console.log('N');
+								$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
+							}
+						}
+						//console.log(data.result.confidence);
+				/**		if((data.result.sentiment) == 'Positive'){
+							positive++;
+						}
+						else if((data.result.sentiment) == 'Negative'){
+							negative++;
+						}
+				//		console.log(count);
+						count++;
+						if(count==3){
+					//		console.log("In If")
+							if(positive>negative){
+						//		console.log('P');
+								$('.result').html('POSITIVE');
+							}
+							else if(positive<=negative){
+							//	console.log('N');
+								$('.result').html('NEGATIVE');
+							}
+						}
 
-		fb_data.forEach(function(post){
-			post.forEach(function(p){
-				console.log(p.message);
+					},
+					error: function(err) {
+						//console.log(err);
+					},
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
+					}
+				}); **/
+
+				})
+			})
+
+			console.log(count);
+
+			var cloud = {
+
+			}
+			twitterArr=[];
+			var tCount = 0;
+			twitter_data.statuses.forEach(function(val){
+			twitterArr = val.text.split(" ").filter(function(cur){
+				if(cur.search('RT')) return true;
+
+
+			}).filter(function(cur){
+					if(cur.search('@')) return true;
+			}).filter(function(cur){
+				if(cur.search('http')) return true;
 			});
-		});
-			// var json_array = {{ json_obj|safe }};
-		// console.log(json_array)
-		// console.log(JSON.parse(json_array['data'][1]));
-		// for(var i=0 ; i<json_array.length ; ++i){
-		// 	console.log(json_array['data'][i]);
-		// };
 
+			twitterArr.forEach(function(word){
+
+				if(cloud[word]!==undefined){
+			cloud[word] ++;
+				}
+				else if(cloud[word]==undefined){
+					cloud[word] =1 ;
+				}
+			})
+//console.log(cloud);
+
+
+			});
+			var makeCloud = [];
+			makeCloud = Object.keys(cloud);
+			var jcloud= [];
+		//	console.log(Object.keys(cloud));
+			makeCloud.forEach(function(val){
+				var temp = {
+					text : val,
+					weight : cloud[val]
+				};
+				jcloud.push(temp);
+			})
+		//	console.log(jcloud);
+			//console.log($('#keywords'));
+
+			$('#keywords').jQCloud(jcloud,{
+      width: 800,
+      height: 250
+    });
 	});
+
+
 </script>
+
+
 {% endblock %}
