@@ -1,6 +1,7 @@
 from twython import Twython
 import json
 from .models import twitter as twt
+from .models import tweets
 
 APP_KEY = 'mOZbx2cTUbgaKHBOs8JzrMISZ'
 APP_SECRET = '3IZBWFxExrNYINPbXIgWfrpRYwe73cknGBRu1KhUTm2PzjO4F9'
@@ -14,10 +15,25 @@ ACCESS_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAKTUuQAAAAAAtVMF7IGhX%2B6Mg1aqiqTByucW%2FsE%
 
 
 def get_tweets(query):
+	if twt.objects.filter(institute_name = query).count() >= 1:
+		print("institute already exists")
+		return
 	queryPostiive = '#' + query + ':)'
 	twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
 	data = twitter.search(q=queryPostiive, count='20')
 	
-	twt.objects.all().delete()
-	t = twt(twitter_json = json.dumps(data))
+	# twt.objects.all().delete()
+	t = twt(institute_name = query,twitter_json = json.dumps(data))
 	t.save()
+	for tweet in data['statuses']:
+		tw = tweets(tweet_id = tweet['id'],
+					favorited = tweet['favorited'],
+					favorite_count = tweet['favorite_count'],
+					retweeted = tweet['retweeted'],
+					retweet_count = tweet['retweet_count'],
+					source = tweet['source'],
+					text = tweet['text'],
+					user_name = tweet['user']['name'],
+					user_id = tweet['user']['id'],
+					institute = t)
+		tw.save()

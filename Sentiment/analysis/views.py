@@ -4,10 +4,12 @@ from django.views.decorators.http import require_http_methods
 from .postdata import get_posts
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import pages, twitter
+from .models import pages, twitter , tweets
 import json
 from json import JSONEncoder
 from .twt import get_tweets
+from django.db.models import Sum
+from .youtube import get_link
 
 # Create your views here.
 @csrf_exempt
@@ -16,20 +18,24 @@ def home(request):
 	if(request.method == "GET"):
 		return render(request , "analysis/home.html")
 	else:
-		get_posts(request.POST.get("college_name" , ""))
-		get_tweets(request.POST.get("college_name" , ""))
-		json_array = get_json_array()
-		twitter_data = json.loads(twitter.objects.all()[0].twitter_json)
-		context = { 'pages' : pages.objects.all(),
-					'institute_name': request.POST.get('college_name' , ''),
-					'number_of_pages' : pages.objects.all().count(),
+		college_name = request.POST.get("college_name" , "")
+		
+		get_posts(college_name)
+		get_tweets(college_name)
+		
+		json_array = get_json_array(college_name)
+		twitter_obj = twitter.objects.get(institute_name = college_name)
+		twitter_data = json.loads(twitter_obj.twitter_json)
+		
+		context = { 'institute_name': college_name,
+					'number_of_pages' : pages.objects.filter(institute_name = college_name).count(),
 					'json_obj': json_array,
 					'tweet_json': twitter_data,
 					'total_likes': get_total_likes(json_array),
 					'total_posts': get_total_posts(json_array),
 					'posts_text': get_posts_text(json_array),
-					'total_retweet_count': get_total_retweets(twitter_data),
-					'total_tweets': len(twitter_data['statuses'])}
+					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
+					'total_tweets': tweets.objects.filter(institute = twitter_obj).count()}
 		return render(request , "analysis/display.html" , context)
 
 
@@ -39,38 +45,48 @@ def compare(request):
 	if(request.method == "GET"):
 		return render(request , "analysis/compare.html")
 	else:
-		get_posts(request.POST.get("college_name" , ""))
-		get_tweets(request.POST.get("college_name" , ""))
-		json_array = get_json_array()
-		twitter_data = json.loads(twitter.objects.all()[0].twitter_json)
-		context = { 'institute_name': request.POST.get('college_name' , ''),
-					'number_of_pages' : pages.objects.all().count(),
+		college_name = request.POST.get("college_name" , "")
+		
+		get_posts(college_name)
+		get_tweets(college_name)
+		
+		json_array = get_json_array(college_name)
+		twitter_obj = twitter.objects.get(institute_name = college_name)
+		twitter_data = json.loads(twitter_obj.twitter_json)
+		
+		context = { 'institute_name': college_name,
+					'number_of_pages' : pages.objects.filter(institute_name = college_name).count(),
 					'json_obj': json_array,
 					'tweet_json': twitter_data,
 					'total_likes': get_total_likes(json_array),
 					'total_posts': get_total_posts(json_array),
 					'posts_text': get_posts_text(json_array),
-					'total_retweet_count': get_total_retweets(twitter_data),
-					'total_tweets': len(twitter_data['statuses'])}
+					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
+					'total_tweets': tweets.objects.filter(institute = twitter_obj).count()}
 
-		get_posts(request.POST.get("college_name_2" , ""))
-		get_tweets(request.POST.get("college_name_2" , ""))
-		json_array = get_json_array()
-		twitter_data = json.loads(twitter.objects.all()[0].twitter_json)
-		context['institute_name_2'] = request.POST.get('college_name_2' , '')
+		college_name = request.POST.get("college_name_2" , "")
+		
+		get_posts(college_name)
+		get_tweets(college_name)
+		
+		json_array = get_json_array(college_name)
+		twitter_obj = twitter.objects.get(institute_name = college_name)
+		twitter_data = json.loads(twitter_obj.twitter_json)
+
+		context['institute_name_2'] = college_name
+		context['number_of_pages_2'] = pages.objects.filter(institute_name = college_name).count()
 		context['json_obj_2'] = json_array
 		context['tweet_json_2'] = twitter_data
 		context['total_likes_2'] = get_total_likes(json_array)
 		context['total_posts_2'] = get_total_posts(json_array)
 		context['posts_text_2'] = get_posts_text(json_array)
-		context['total_retweet_count_2'] = get_total_retweets(twitter_data)
-		context['total_tweets_2'] = len(twitter_data['statuses'])
-
+		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))
+		context['total_tweets_2'] = tweets.objects.filter(institute = twitter_obj).count()
 		return render(request , "analysis/display2.html" , context)
 
-def get_json_array():
+def get_json_array(college_name):
 	res = []
-	for page in pages.objects.all():
+	for page in pages.objects.filter(institute_name = college_name):
 		json_obj = page.page_json
 		res.append(json.loads(json_obj))
 	return res
