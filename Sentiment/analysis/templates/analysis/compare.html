@@ -1,0 +1,43 @@
+{% extends "common/base.html" %}
+{% block content %}
+<div class="container">
+	<div class="row content">
+
+		<div class="col-md-8 col-md-offset-2">
+			<div class="title">
+			<center>  SENTIMENTAL ANALYSIS FOR COLLEGE</center>
+			</div>
+			<div class="search">
+				<center>
+				<form action = '{% url "compare" %}' method = "POST">
+					<input  style="border-top: medium none ; border-bottom: 1px solid black ! important; border-left: medium none; border-right: medium none; width: 600px;" name = "college_name" type = "text" placeholder = "TYPE NAME OF A FIRST COLLEGE">
+					<input  style="border-top: medium none ; border-bottom: 1px solid black ! important; border-left: medium none; border-right: medium none; width: 600px;" name = "college_name_2" type = "text" placeholder = "TYPE NAME OF A SECOND COLLEGE">
+					<input id="submit" type = "submit" value= "GO">
+				</form>
+
+			</center>
+			</div>
+			<div class="">
+
+			</div>
+		</div>
+	</div>
+	<div class="row intro">
+		<center>
+		<div class="col-md-4 para">
+			<span class="techTitle">Django</span>
+			 A high-level Python Web framework that encourages rapid development and clean, pragmatic design
+		</div>
+		<div class="col-md-4 para">
+				<span class="techTitle">Twython</span>
+				 The premier Python library providing an easy (and up-to-date) way to access Twitter data. Actively maintained and featuring support for Python 2.6+ and Python 3.
+		</div>
+		<div class="col-md-4 para">
+				<span class="techTitle">D3.js</span>
+				A JavaScript library for producing dynamic, interactive data visualizations in web browsers.
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
