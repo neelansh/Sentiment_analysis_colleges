@@ -20,12 +20,13 @@ def home(request):
 		get_tweets(request.POST.get("college_name" , ""))
 		json_array = get_json_array()
 		context = { 'pages' : pages.objects.all(),
-					'institute_name': request.POST.get('college_name' , ''), 
+					'institute_name': request.POST.get('college_name' , ''),
 					'number_of_pages' : pages.objects.all().count(),
 					'json_obj': json_array,
 					'tweet_json': json.loads(twitter.objects.all()[0].twitter_json),
 					'total_likes': get_total_likes(json_array),
-					'total_posts': get_total_posts(json_array)}
+					'total_posts': get_total_posts(json_array),
+					'posts_text': get_posts_text(json_array)}
 		return render(request , "analysis/display.html" , context)
 
 def get_json_array():
@@ -48,3 +49,7 @@ def get_total_posts(pages):
 	for page in pages:
 		total_posts = total_posts + len(page['posts']['data'])
 	return total_posts
+
+def get_posts_text(pages):
+	posts_text = pages[0]['posts']['data']
+	return posts_text

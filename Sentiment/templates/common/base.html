@@ -2,15 +2,59 @@
 <html>
 <head>
 	<meta charset = "utf-8">
-	<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>  
+
+	<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="{% static 'common/css/base.css' %}">
+	<style media="screen">
+
+	.title {
+	padding-bottom: 4em;
+	font-family: "PT Sans";
+	font-size: 19px;
+	letter-spacing: 3px;
+	text-indent: 3px;
+}
+		.content{
+			padding-top: 10em;
+		}
+		.title{
+			padding-bottom: 4em;
+		}
+		button, input, select, textarea {
+			font-family: Roboto !important;
+			font-size: 30px !important;
+			font-weight: 900 !important;
+			line-height: inherit;
+	}
+	.para{
+		padding: 100px !important;
+		font-family: "PT Sans" !important;
+font-style: italic;
+	}
+	.techTitle{
+		font-family: "PT Sans" !important;
+		font-weight:800;
+		font-size: 30px;
+		font-style: normal !important;
+	}
+	.intro{
+		padding-top: 3em;
+	}
+	#submit{
+		box-shadow: none !important;
+background-color: #1a237e !important;
+border: none;
+color: white;
+
+	}
+	</style>
 	{% load bootstrap3 %}
 	{% bootstrap_css %}
 	{% bootstrap_javascript %}
 	{% bootstrap_messages %}
 
 	<title>{% block page_title %} Sentiment Analysis {% endblock %}</title>
-	
+
 	{% block extra_head%}
 	{% endblock %}
 </head>
