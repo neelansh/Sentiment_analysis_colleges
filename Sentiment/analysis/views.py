@@ -41,9 +41,8 @@ def get_json_array():
 
 
 def get_total_likes(pages):
-	total_likes = 0
-	for page in pages:
-		total_likes = total_likes + page['engagement']['count']
+	total_likes=0
+	total_likes = total_likes + pages[0]['engagement']['count']
 	return total_likes
 
 
@@ -55,7 +54,7 @@ def get_total_posts(pages):
 
 def get_posts_text(pages):
 	posts_text = []
-	for i in range(5):
+	for i in range(2):
 		posts_text.append(pages[i]['posts']['data'])
 	# posts_text = pages[0]['posts']['data']
 	return posts_text

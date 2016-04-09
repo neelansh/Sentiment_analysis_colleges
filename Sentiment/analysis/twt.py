@@ -17,7 +17,7 @@ def get_tweets(query):
 	queryPostiive = '#' + query + ':)'
 	twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
 	data = twitter.search(q=queryPostiive, count='3')
-	print(data)
+	
 	twt.objects.all().delete()
 	t = twt(twitter_json = json.dumps(data))
 	t.save()

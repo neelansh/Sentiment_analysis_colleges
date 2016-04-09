@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBABZBp9D6WIvRAbztp8G6bP2ZBfRU6uOAEWf15q9F030eZBDLZCTFQoLv5N25aZCwYWgiUyk5sBYV0ZALXs5Y4vgOjx9IGeblMRkWagFsnYlBX4ZB5OUScyJpZAv47snC0NOjbMvdCiCUyyJNZC0OWB6YJNykH92hXRwZDZD'
+    'EAACEdEose0cBAJaT3ZBiOJenVGsr4WzVqkQ0S0gyC5RtvDVpf8wpNQTk9izDH0tcxEmSLf0mIGbFIYkTkCjcKpSn8NEZAj2An06UCJzbAf1JkwhREVLN03s5jSh5CHpCONOrfJopVV2MkVRZBsoZCXZCLD1eeFU0iktulBZCug7AZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
@@ -29,7 +29,7 @@ def get_posts(query):
     for res in result['data']:
         # if res['category'] and res['category'] in valid_category:
         engagementUrl = 'https://graph.facebook.com/' + res['id'] \
-        + '/?fields=id,name,posts.limit(10){name,message},engagement,category'
+        + '/?fields=id,name,posts.limit(5){name,message},engagement,category'
         q = requests.get(engagementUrl, params=parameters)
         page_result = json.loads(q.text)
         return_pages['data'].append(page_result)
