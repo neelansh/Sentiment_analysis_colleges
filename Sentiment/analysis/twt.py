@@ -16,7 +16,8 @@ ACCESS_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAKTUuQAAAAAAtVMF7IGhX%2B6Mg1aqiqTByucW%2FsE%
 def get_tweets(query):
 	queryPostiive = '#' + query + ':)'
 	twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-	data = twitter.search(q=queryPostiive, count='2')
+	data = twitter.search(q=queryPostiive, count='3')
+	print(data)
 	twt.objects.all().delete()
 	t = twt(twitter_json = json.dumps(data))
 	t.save()

@@ -15,9 +15,9 @@
 
 <div class = "container">
 	<div id = "data_display">
-		<h1>total number of page likes are : </h1>
 		<h1>Sentiment of the page is: </h1>
 		<h1>total likes: {{ total_likes }} total posts: {{ total_posts }}</h1>
+		<h1>total retweets: {{ total_retweet_count }} total tweets : {{ total_tweets }}</h1>
 	</div>
 	<div class = "wordle">
 		<h2>wordle representation of the posts related to {{ institute_name }}:</h2>
@@ -36,18 +36,17 @@
 		var True = true;
 		var None = null;
 		//var facebook_data = {{ json_obj|safe }};
-	//var twitter_data = {{ tweet_json|safe }};
+		var twitter_data = {{ tweet_json|safe }};
 		//console.log(facebook_data);
-		//console.log(twitter_data);
+		console.log(twitter_data);
 		var fb_data  = {{ posts_text | safe }}
 		console.log(fb_data)
 
 		fb_data.forEach(function(post){
-
-			console.log(post.message)
-
-
-		})
+			post.forEach(function(p){
+				console.log(p.message);
+			});
+		});
 			// var json_array = {{ json_obj|safe }};
 		// console.log(json_array)
 		// console.log(JSON.parse(json_array['data'][1]));
