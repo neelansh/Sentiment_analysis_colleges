@@ -11,6 +11,8 @@
 		<li>{{ page_likes }}</li>
 	</ul>
 {% endfor %} -->
+
+
 <div class = "container">
 	<div id = "data_display">
 		<h1>total number of page likes are : </h1>
@@ -25,17 +27,28 @@
 
 </div>
 
+
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
 		var False = false;
 		var True = true;
 		var None = null;
-		var facebook_data = {{ json_obj|safe }};
-		var twitter_data = {{ tweet_json|safe }};
-		console.log(facebook_data);
-		console.log(twitter_data);
-		// var json_array = {{ json_obj|safe }};
+		//var facebook_data = {{ json_obj|safe }};
+	//var twitter_data = {{ tweet_json|safe }};
+		//console.log(facebook_data);
+		//console.log(twitter_data);
+		var fb_data  = {{ posts_text | safe }}
+		console.log(fb_data)
+
+		fb_data.forEach(function(post){
+
+			console.log(post.message)
+
+
+		})
+			// var json_array = {{ json_obj|safe }};
 		// console.log(json_array)
 		// console.log(JSON.parse(json_array['data'][1]));
 		// for(var i=0 ; i<json_array.length ; ++i){
