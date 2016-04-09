@@ -137,7 +137,7 @@
 		fb_data.forEach(function(data) {
 			data.forEach(function(post){
 			//	console.log(post.message)
-			/**	$.ajax({
+				$.ajax({
 					url: "https://community-sentiment.p.mashape.com/text/",
 					method: "POST",
 					data: {
@@ -171,26 +171,7 @@
 								$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
 							}
 						}
-						//console.log(data.result.confidence);
-				/**		if((data.result.sentiment) == 'Positive'){
-							positive++;
-						}
-						else if((data.result.sentiment) == 'Negative'){
-							negative++;
-						}
-				//		console.log(count);
-						count++;
-						if(count==3){
-					//		console.log("In If")
-							if(positive>negative){
-						//		console.log('P');
-								$('.result').html('POSITIVE');
-							}
-							else if(positive<=negative){
-							//	console.log('N');
-								$('.result').html('NEGATIVE');
-							}
-						}
+
 
 					},
 					error: function(err) {
@@ -199,7 +180,7 @@
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
 					}
-				}); **/
+				});
 
 				})
 			})
