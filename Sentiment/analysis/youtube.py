@@ -22,7 +22,7 @@ def get_link(query):
 
 def get_link_viewed(query):
 	search_query=query.replace(' ' , '+')
-	i=requests.get("https://www.youtube.com/results?sp=CAM%253D&q="+search_query)
+	i=requests.get("https://www.youtube.com/results?&q="+search_query+"&sp=CAM%253D")
 	soup=BeautifulSoup(i.text)
 	res_div = soup.find("ol", {"class": "item-section"})
 	count = 0
@@ -38,7 +38,7 @@ def get_link_viewed(query):
 		
 def get_link_relevant(query):
 	search_query=query.replace(' ' , '+')
-	i=requests.get("https://www.youtube.com/results?q="+search_query)
+	i=requests.get("https://www.youtube.com/results?search_query="+search_query)
 	soup=BeautifulSoup(i.text)
 	res_div = soup.find("ol", {"class": "item-section"})
 	count = 0
