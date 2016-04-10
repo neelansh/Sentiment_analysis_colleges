@@ -74,9 +74,12 @@ def compare(request):
 					'posts_text': get_posts_text(json_array),
 					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
 					'total_tweets': tweets.objects.filter(institute = twitter_obj).count(),
-					'youtube': get_link(college_name_full),
+					'youtube_viewed': get_link_viewed(college_name_full),
+					'youtube_relevant': get_link_relevant(college_name_full),
 					'insta': get_insta(college_name),
-					'flickr': get_flickr(college_name)}
+					'flickr': get_flickr(college_name),
+					'most_active_tweeter': get_most_activeuser(college_name),
+					'most_retweeted_tweets': get_most_retweeted(college_name)}
 
 		college_name = request.POST.get("college_name_2" , "")
 
@@ -96,9 +99,13 @@ def compare(request):
 		context['posts_text_2'] = get_posts_text(json_array)
 		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))
 		context['total_tweets_2'] = tweets.objects.filter(institute = twitter_obj).count()
-		context['youtube_2'] = get_link(college_name)
+		context['youtube_2'] = get_link_viewed(college_name_full),
+		context['youtube_relevant_2'] = get_link_relevant(college_name_full)
 		context['insta_2'] = get_insta(college_name)
 		context['flickr_2'] = get_flickr(college_name)
+		context['most_active_twitter_2'] = get_most_activeuser(college_name)
+		context['most_retweeted_tweets_2'] = get_most_retweeted(college_name)
+
 		return render(request , "analysis/display2.html" , context)
 
 def get_fullform(name):
