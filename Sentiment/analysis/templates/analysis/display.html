@@ -253,6 +253,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var cloud = {
+
+		}
 google.charts.load("current", {packages:["corechart", "line", "bar"]});
 var pichart_2 = [];
 		$('.graph').click(function(){
@@ -274,6 +277,7 @@ var pichart_2 = [];
 		var fb_data = {{posts_text | safe}}
 
 		console.log(fb_data)
+
 		var positive = 0;
 		var negative = 0;
 	  var count = 0 ;
@@ -327,7 +331,7 @@ var pichart_2 = [];
 				});
 
 				})
-
+fbwordle();
 			})
 
 			function calcresults(){
@@ -371,9 +375,36 @@ cloud[word]++;
 	}
 })
 **/
-			var cloud = {
 
+
+function fbwordle(){
+	fb_data.forEach(function(val){
+//	console.log(val);
+	val.forEach(function(post){
+		console.log(post);
+		if(post.message){
+			fbArr = post.message.split(" ");
+			fbArr.forEach(function(data){
+				if(data!=='the'&& data!=='from' && data!=='and' &&data!=='in' &&data!=='your' &&data!=='me' &&
+			data!=='or'&& data!=='is' && data!=='with' &&data!=='on' &&data!=='to' &&data!=='have'&&
+		data!=='of'&& data!=='you' && data!=='for' &&data!=='be' &&data!=='a' &&data!=='that'&&
+	data!=='them'&& data!=='then' && data!=='those' &&data!=='at' &&data!=='are' &&data!=='all'){
+				if(cloud[data]!==undefined){
+					cloud[data]++;
+				}
+				else{
+					cloud[data]=1;
+				}
 			}
+			})
+		}
+	})
+	})
+}
+
+
+
+
 			twitterArr=[];
 			var tCount = 0;
 			twitter_data.statuses.forEach(function(val){
@@ -400,6 +431,8 @@ cloud[word]++;
 
 
 			});
+
+
 			var makeCloud = [];
 			makeCloud = Object.keys(cloud);
 			var jcloud= [];
@@ -411,7 +444,7 @@ cloud[word]++;
 				};
 				jcloud.push(temp);
 			})
-		//	console.log(jcloud);
+			console.log(jcloud);
 			//console.log($('#keywords'));
 
 			$('#keywords').jQCloud(jcloud,{
