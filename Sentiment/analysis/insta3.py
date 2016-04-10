@@ -20,7 +20,7 @@ def get_insta(query):
 				data[res["name"]] = res['media_count']
 		else:
 			break
-	return data	
 
+	return data	
 
 # get_insta("stanford university")

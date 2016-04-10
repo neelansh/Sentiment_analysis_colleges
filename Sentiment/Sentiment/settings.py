@@ -81,9 +81,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Sentiment_db',
         'HOST': 'localhost',
-        'USER': 'test3',
-        'PASSWORD': '',
-        'PORT': 8889
+        'USER': 'root',
+        'PASSWORD': 'neelansh5',
+        'PORT': 3306
     }
 }
 

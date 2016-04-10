@@ -83,9 +83,8 @@
 				</div>
 			Facebook page likes are : {{total_likes}}<br>
 					number of Tweets : {{total_tweets}}<br>
-			number of Retweets : <br>
+			number of Retweets : {{ total_retweet_count }}<br>
 				Count of Facebook Posts : {{total_posts}}<br>
-
 
 			</div>
 
@@ -173,10 +172,22 @@
 	</div>
 </div>
 
+<p>
+	Users who tweeted maximum number of times : <br>
+	{% for user in most_active_tweeter %}
+		{{ user.user_name }}<br><br>
+	{% endfor %}
+	Most retweeted tweets:<br>
+	{% for tweets in most_retweeted_tweets %}
+		{{ tweets.text }}<br><br>
+	{% endfor %}
+</p>
 
 </div>
 
-
+{% for img in insta_img %}
+<img src="{{ img }}">
+{% endfor%}
 
 <script type="text/javascript">
 	$(document).ready(function() {
