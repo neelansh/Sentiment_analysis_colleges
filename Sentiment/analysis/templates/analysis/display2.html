@@ -1,12 +1,177 @@
-{% extends "common/base.html" %} 
+{% extends "common/base.html" %}
 {% block content %}
-<h1> institue 1: {{ institute_name }} institute 2: {{ institute_name_2 }}</h1>
+
+<style media="screen">
+	#data_display{
+		font-family: 'PT Sans';
+		font-size: 14px !important;
+		letter-spacing: 1px;
+		text-indent: 1px;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	.result-title{
+		font-family: 'PT Sans';
+		font-size: 14px !important;
+		letter-spacing: 1px;
+		text-indent: 1px;
+		font-weight: 900;
+		text-transform: uppercase;
+	}
+	.college_name{
+		border-left:6px crimson solid;
+		font-family: Roboto;
+		font-weight: 900;
+		font-size: 24px;
+		padding: 20px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+	}
+	.sentiment{
+		padding:20px;
+
+	}
+
+.result, .result_2{
+	font-family: "Roboto";
+	font-size: 18px;
+	color:#1a237e;
+	font-weight: 900;
+	letter-spacing: 3px;
+	text-indent: 3px;
+	text-transform: uppercase;
+}
+	.result-title{
+		font-size:24px !important;
+	}
+	.wordle{
+		font-family: 'PT Sans';
+		font-size: 14px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		text-indent: 1px;
+		font-weight: 600;
+	}
+	.smiley{
+		font-size: 40px !important;
+		color:#d50000;
+	}
+	.wordCloud{
+		padding-top: 5em;
+
+	}
+	.graphButton{
+		padding:30px;
+	}
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+				<div id="data_display">
+					<div class="college_name">
+						{{institute_name}}
+					</div>
+				Facebook page likes are : {{total_likes}}<br>
+						number of Tweets : {{total_tweets}}<br>
+				number of Retweets : {{total_retweet_count}}<br>
+					Count of Facebook Posts : {{total_posts}}<br>
+
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="sentiment">
+					<div class="result-title">
+						SENTIMENT ANALYSIS RESULT
+					</div>
+						<div class="result">
+
+						</div>
+					</div>
+			</div>
+			<div class="row">
+				<div class="wordCloud">
+					<center>
+					<div class="wordle">
+				<span id="wordle">WORD CLOUD</span> representation of the tweets with #{{ institute_name }}:
+
+				</div>
+					<div class="hey" id="keywords">
+
+					</div>
+				</div>
+			</div>
+			<div class="row graphButton">
+				<center>
+				<button type="button" class="graph" name="button" style="border: medium none; background-color: rgb(26, 35, 126); text-transform: uppercase; color: white ! important; letter-spacing: 4px; text-indent: 4px; font-size: 18px! important; font-weight:500 !important;">Click to generate graph</button>
+			</div>
+			<div class="row"><center>
+				<div id="line_top_x"></div>
+
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div id="data_display">
+					<div class="college_name">
+						{{institute_name_2}}
+					</div>
+				Facebook page likes are : {{total_likes_2}}<br>
+						number of Tweets : {{total_tweets_2}}<br>
+				number of Retweets : {{total_retweet_count_2}}<br>
+					Count of Facebook Posts : {{total_posts_2}}<br>
+
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="sentiment">
+					<div class="result-title">
+						SENTIMENT ANALYSIS RESULT
+					</div>
+						<div class="result_2">
+
+						</div>
+					</div>
+			</div>
+			<div class="row">
+				<div class="wordCloud">
+					<center>
+					<div class="wordle">
+				<span id="wordle">WORD CLOUD</span> representation of the tweets with #{{ institute_name_2 }}:
+
+				</div>
+					<div class="hey" id="keywords_2">
+
+					</div>
+				</div>
+			</div>
+			<div class="row graphButton">
+				<center>
+				<button type="button" class="graph_2" name="button" style="border: medium none; background-color: rgb(26, 35, 126); text-transform: uppercase; color: white ! important; letter-spacing: 4px; text-indent: 4px; font-size: 18px! important; font-weight:500 !important;">Click to generate graph</button>
+			</div>
+			<div class="row"><center>
+				<div id="line_top_x_2"></div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
 
 <script type="text/javascript">
 $(document).ready(function() {
 		var False = false;
 		var True = true;
 		var None = null;
+			var chartArr = [];
+				var chartArr_2 = [];
 		console.log("{{ institute_name }}");
 		console.log({{ json_obj|safe }});
 		console.log({{ tweet_json|safe }});
@@ -14,6 +179,385 @@ $(document).ready(function() {
 		console.log("{{ institute_name_2 }}");
 		console.log({{ json_obj_2|safe }});
 		console.log({{ tweet_json_2|safe }});
+	google.charts.load('current', {'packages':['line']});
+		$('.graph').click(function(){
+
+			drawChart();
+		})
+		$('.graph_2').click(function(){
+
+		drawChart_2();
+		})
+		function firstCollege(){
+			var False = false;
+			var True = true;
+			var None = null;
+			//var facebook_data = {{ json_obj|safe }};
+			var twitter_data = {{ tweet_json|safe }};
+			//console.log(facebook_data);
+			//console.log(twitter_data);
+			var fb_data = {{posts_text | safe}}
+
+			console.log(fb_data)
+			var positive = 0;
+			var negative = 0;
+			var count = 0 ;
+			var send_text = "";
+			var totalposts = fb_data.length;
+			fb_data.forEach(function(data) {
+				console.log(data.length);
+				data.forEach(function(post){
+				//	console.log(post.message)
+		//		console.log(post);
+				if(post.messsage === undefined){
+					send_text = post.name;
+				}
+				else {
+					send_text = post.message;
+				}
+		/**			$.ajax({
+						url: "https://community-sentiment.p.mashape.com/text/",
+						method: "POST",
+						data: {
+							txt: send_text
+						},
+						success: function(data) {
+						//	console.log(data);
+							if(data.result.sentiment=='Positive'){
+								positive++;
+								console.log("P" + positive);
+							}
+							else if(data.result.sentiment == 'Negative') {
+								negative++;
+								console.log("N" + negative);
+							}
+							else if(data.result.sentiment == 'Neutral') {
+								negative++;
+								positive++;
+								console.log("Neutral");
+							}
+							count++;
+					//		console.log(count);
+						//	console.log(totalposts);
+
+
+
+						},
+						error: function(err) {
+							//console.log(err);
+						},
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
+						}
+					});**/
+
+					})
+					calcresults();
+				})
+
+				function calcresults(){
+					console.log("Calc");
+					if(positive>negative){
+				//		console.log('P');
+						$('.result').html('POSITIVE <i class="smiley fa fa-smile-o"></i>');
+					}
+					else if(positive<negative){
+					//	console.log('N');
+						$('.result').html('NEGATIVE <i class="smiley fa fa-frown-o"></i>');
+					}
+					else if(positive==negative){
+					//	console.log('N');
+						$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
+					}
+				}
+	//			console.log(count);
+
+				var cloud = {
+
+				}
+				twitterArr=[];
+				var tCount = 0;
+				twitter_data.statuses.forEach(function(val){
+				twitterArr = val.text.split(" ").filter(function(cur){
+					if(cur.search('RT')) return true;
+
+
+				}).filter(function(cur){
+						if(cur.search('@')) return true;
+				}).filter(function(cur){
+					if(cur.search('http')) return true;
+				});
+
+				twitterArr.forEach(function(word){
+
+					if(cloud[word]!==undefined){
+				cloud[word]++;
+					}
+					else if(cloud[word]==undefined){
+						cloud[word] =1 ;
+					}
+				})
+	//console.log(cloud);
+
+
+				});
+				var makeCloud = [];
+				makeCloud = Object.keys(cloud);
+				var jcloud= [];
+			//	console.log(Object.keys(cloud));
+				makeCloud.forEach(function(val){
+					var temp = {
+						text : val,
+						weight : cloud[val]
+					};
+					jcloud.push(temp);
+				})
+			//	console.log(jcloud);
+				//console.log($('#keywords'));
+
+				$('#keywords').jQCloud(jcloud,{
+				width: 400,
+				height: 250
+			});
+
+
+
+			var k = 0;
+			twitter_data.statuses.forEach(function(val){
+				var time = new Date(val.created_at).getMinutes();
+				var rtcount = val.retweet_count;
+				chartArr.push([k, rtcount]);
+				k++;
+				if(k==twitter_data.statuses.length -1){
+
+				}
+
+
+			})
+	//	console.log(chatArr);
+
+
+
+
+		}
+
+
+
+		function secondCollege(){
+			var False = false;
+			var True = true;
+			var None = null;
+			//var facebook_data = {{ json_obj|safe }};
+			var twitter_data = {{ tweet_json_2|safe }};
+			//console.log(facebook_data);
+			//console.log(twitter_data);
+			var fb_data = {{posts_text_2 | safe}}
+
+			console.log(fb_data)
+			var positive = 0;
+			var negative = 0;
+			var count = 0 ;
+			var send_text = "";
+			var totalposts = fb_data.length;
+			fb_data.forEach(function(data) {
+		//		console.log(data.length);
+				data.forEach(function(post){
+				//	console.log(post.message)
+		//		console.log(post);
+				if(post.messsage === undefined){
+					send_text = post.name;
+				}
+				else {
+					send_text = post.message;
+				}
+		/**			$.ajax({
+						url: "https://community-sentiment.p.mashape.com/text/",
+						method: "POST",
+						data: {
+							txt: send_text
+						},
+						success: function(data) {
+						//	console.log(data);
+							if(data.result.sentiment=='Positive'){
+								positive++;
+								console.log("P" + positive);
+							}
+							else if(data.result.sentiment == 'Negative') {
+								negative++;
+								console.log("N" + negative);
+							}
+							else if(data.result.sentiment == 'Neutral') {
+								negative++;
+								positive++;
+								console.log("Neutral");
+							}
+							count++;
+					//		console.log(count);
+						//	console.log(totalposts);
+
+
+
+						},
+						error: function(err) {
+							//console.log(err);
+						},
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
+						}
+					});**/
+
+					})
+					calcresults();
+				})
+
+				function calcresults(){
+					console.log("Calc");
+					if(positive>negative){
+				//		console.log('P');
+						$('.result_2').html('POSITIVE <i class="smiley fa fa-smile-o"></i>');
+					}
+					else if(positive<negative){
+					//	console.log('N');
+						$('.result_2').html('NEGATIVE <i class="smiley fa fa-frown-o"></i>');
+					}
+					else if(positive==negative){
+					//	console.log('N');
+						$('.result_2').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
+					}
+				}
+	//			console.log(count);
+
+				var cloud = {
+
+				}
+				twitterArr=[];
+				var tCount = 0;
+				twitter_data.statuses.forEach(function(val){
+				twitterArr = val.text.split(" ").filter(function(cur){
+					if(cur.search('RT')) return true;
+
+
+				}).filter(function(cur){
+						if(cur.search('@')) return true;
+				}).filter(function(cur){
+					if(cur.search('http')) return true;
+				});
+
+				twitterArr.forEach(function(word){
+
+					if(cloud[word]!==undefined){
+				cloud[word]++;
+					}
+					else if(cloud[word]==undefined){
+						cloud[word] =1 ;
+					}
+				})
+	//console.log(cloud);
+
+
+				});
+				var makeCloud = [];
+				makeCloud = Object.keys(cloud);
+				var jcloud= [];
+			//	console.log(Object.keys(cloud));
+				makeCloud.forEach(function(val){
+					var temp = {
+						text : val,
+						weight : cloud[val]
+					};
+					jcloud.push(temp);
+				})
+			//	console.log(jcloud);
+				//console.log($('#keywords'));
+
+				$('#keywords_2').jQCloud(jcloud,{
+				width: 400,
+				height: 250
+			});
+
+
+
+			var k = 0;
+			twitter_data.statuses.forEach(function(val){
+				var time = new Date(val.created_at).getMinutes();
+				var rtcount = val.retweet_count;
+				chartArr_2.push([k, rtcount]);
+				k++;
+				if(k==twitter_data.statuses.length -1){
+
+				}
+
+
+			})
+		//console.log(chatArr);
+
+
+
+		}
+
+
+firstCollege();
+secondCollege();
+
+function drawChart_2() {
+
+	var data_2 = new google.visualization.DataTable();
+		data_2.addColumn('number', 'Time');
+
+	data_2.addColumn('number', 'Retweets');
+
+
+
+	data_2.addRows(chartArr_2);
+
+	var options = {
+		chart: {
+			title: 'Retweets Counter',
+			subtitle: 'in clicks'
+		},
+		width: 400,
+		height: 200,
+		axes: {
+			x: {
+				0: {side: 'top'}
+			}
+		}
+	};
+
+	var chart_2 = new google.charts.Line(document.getElementById('line_top_x_2'));
+
+	chart_2.draw(data_2, options);
+}
+
+function drawChart() {
+
+	var data = new google.visualization.DataTable();
+		data.addColumn('number', 'Time');
+
+	data.addColumn('number', 'Retweets');
+
+
+
+	data.addRows(chartArr);
+
+	var options = {
+		chart: {
+			title: 'Retweets Counter',
+			subtitle: 'in clicks'
+		},
+		width: 400,
+		height: 200,
+		axes: {
+			x: {
+				0: {side: 'top'}
+			}
+		}
+	};
+
+	var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+	chart.draw(data, options);
+}
 		});
 
 </script>
