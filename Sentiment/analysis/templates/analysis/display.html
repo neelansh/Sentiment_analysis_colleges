@@ -83,7 +83,7 @@
 				</div>
 			Facebook page likes are : {{total_likes}}<br>
 					number of Tweets : {{total_tweets}}<br>
-			number of Retweets : {{total_retweet_count}}<br>
+			number of Retweets : <br>
 				Count of Facebook Posts : {{total_posts}}<br>
 
 
@@ -125,11 +125,37 @@
 		<div id="line_top_x"></div>
 
 	</div>
+
+	<div class="row graphButton">
+		<center>
+		<button type="button" class="pichart" name="button" style="border: medium none; background-color: rgb(26, 35, 126); text-transform: uppercase; color: white ! important; letter-spacing: 4px; text-indent: 4px; font-size: 18px! important; font-weight:500 !important;">Click to generate Chart</button>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div id="donutchart" style="width: 500px; height: 300px;"></div>
+
+		</div>
+		<div class="col-md-6">
+			<div id="piechart_3d" style="width: 500px; height: 300px;"></div>
+		</div>
+
+
+	</div>
+	<div class="row">
+		<div class="result-title">
+			<center>
+			MOST VIEWED YOUTUBE VIDEO RELATED TO SEARCH TERM
+		</div>
+		<div class="embed-video">
+			<center>
+			{{ youtube|safe }}
+		</div>
+	</div>
 </div>
 
 
 </div>
-{{ youtube|safe }}
+
 
 <ul>
 {% for key,value in insta.items %}
@@ -142,10 +168,10 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
+google.charts.load("current", {packages:["corechart", "line"]});
+var pichart_2 = [];
 		$('.graph').click(function(){
-			google.charts.load('current', {'packages':['line']});
-			google.charts.setOnLoadCallback(drawChart);
+		drawChart();
 		})
 
 		var False = false;
@@ -174,7 +200,7 @@
 			else {
 				send_text = post.message;
 			}
-	/**			$.ajax({
+				$.ajax({
 					url: "https://community-sentiment.p.mashape.com/text/",
 					method: "POST",
 					data: {
@@ -208,10 +234,10 @@
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
 					}
-				});**/
+				});
 
 				})
-				calcresults();
+
 			})
 
 			function calcresults(){
@@ -228,6 +254,8 @@
 				//	console.log('N');
 					$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
 				}
+
+
 			}
 //			console.log(count);
 
@@ -325,15 +353,67 @@
 		chart.draw(data, options);
 	}
 
+	$('.pichart').click(function(){
+		pichart_2[0] = ['Sentiment Type', 'Percent'];
+		pichart_2[1] = ['Positive', positive];
+		pichart_2[2] = ['Negative', negative];
+		console.log(pichart_2);
+
+		calcresults();
+		drawChart_2();
+	})
+
+
+
+
+
+	var pichart = [];
+	pichart[0] = ['Post Type', 'Percent'];
+	pichart[1] = ['Text Based', 0];
+	pichart[2] = ['Images and Videos', 0 ];
+	function drawChart_2(){
+
+		fb_data.forEach(function(val){
+
+			val.forEach(function(post){
+
+				if(post.message==undefined) {
+					pichart[2][1] ++;
+				}
+				else{
+					pichart[1][1] ++;
+				}
+
+			})
+		})
+		console.log(pichart);
+
+
+		var data = google.visualization.arrayToDataTable(pichart);
+			var data_2 = google.visualization.arrayToDataTable(pichart_2);
+
+				 var options = {
+					 title: 'Page Daily Activities',
+					 is3D: true,
+				 };
+
+				 var options_2 = {
+					 title: 'Sentiment Analysis',
+					 pieHole:0.4,
+				 };
+
+				 var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+				 var chart_2 = new google.visualization.PieChart(document.getElementById('donutchart'));
+
+				 chart.draw(data, options);
+				 chart_2.draw(data_2, options_2);
+			 }
 
 	});
 
 
-</script>
 
 
-
-    <script type="text/javascript">
 
 
 
