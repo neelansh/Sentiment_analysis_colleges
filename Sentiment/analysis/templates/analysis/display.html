@@ -164,7 +164,16 @@
 		</div>
 		<div class="embed-video">
 			<center>
-			{{ youtube|safe }}
+			<p>most viewed top 5:</p>
+			{% for link in youtube_viewed %}
+			<iframe width="420" height="345" src="{{ link|safe }}">
+			</iframe>
+			{% endfor %}
+			<p>most relevant top 5:</p>
+			{% for link in youtube_viewed %}
+			<iframe width="420" height="345" src="{{ link|safe }}">
+			</iframe>
+			{% endfor %}
 		</div>
 	</div>
 	<div class="row">

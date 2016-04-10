@@ -9,7 +9,7 @@ import json
 from json import JSONEncoder
 from .twt import get_tweets
 from django.db.models import Sum
-from .youtube import get_link
+from .youtube import *
 from django.db.models import Q
 from .insta3 import get_insta
 from .flickr import get_flickr
@@ -41,7 +41,8 @@ def home(request):
 					'posts_text': get_posts_text(json_array),
 					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))["retweet_count__sum"],
 					'total_tweets': tweets.objects.filter(institute = twitter_obj).count(),
-					'youtube': get_link(college_name_full),
+					'youtube_viewed': get_link_viewed(college_name_full),
+					'youtube_relevant': get_link_relevant(college_name_full),
 					'insta': get_insta(college_name),
 					'flickr': get_flickr(college_name),
 					'most_active_tweeter': get_most_activeuser(college_name),

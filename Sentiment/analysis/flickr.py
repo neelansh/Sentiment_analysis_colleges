@@ -6,7 +6,7 @@ def get_flickr(query):
 	FORMAT='json'
 	METHOD='flickr.photos.search'
 
-	KEY='637f99c7944fc94332b8c1159443edb0'
+	KEY='7dc81dedaee60d8498c3480f325bc1d6'
 
 	url='https://api.flickr.com/services/rest/?'+'method='+METHOD
 	parameters={'api_key':KEY,'tags':TAGS,'format':FORMAT}
