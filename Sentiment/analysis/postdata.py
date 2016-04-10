@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBAMtZB9JZCXfbMOb3cpp0D52nc4gSEG300heIMwKUkIZANiggPqGWazOp0LdeQMJKZBSPNwzfIStUzS0PNZCZAZCXYpDZCBmRHXsxPApRRAl36zOZAYLZCPHpBnYD4efR6WX0hc2AMxOaNxFgGmW0GqXJ2dv77bkCh9qQZDZD'
+    'EAACEdEose0cBAJEFsdRWwmWpmNYFCfOhXlzsMaAdtLu3LMe5LSTSGDNMo9ZBuFdYsiA3ShPRSA8dsvTs15x2JiY7w1kYlfEWvIF6WGmipSVeikiPiEsdLeR3kXH0ZCkT2H23gKKZA8uYiXqsuUnTLXtC9GnTwTB9SkX92WhHgZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
