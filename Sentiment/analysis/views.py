@@ -11,6 +11,7 @@ from .twt import get_tweets
 from django.db.models import Sum
 from .youtube import get_link
 from django.db.models import Q
+from .insta3 import get_insta
 
 # Create your views here.
 @csrf_exempt
@@ -38,7 +39,8 @@ def home(request):
 					'posts_text': get_posts_text(json_array),
 					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
 					'total_tweets': tweets.objects.filter(institute = twitter_obj).count(),
-					'youtube': get_link(college_name_full)}
+					'youtube': get_link(college_name_full),
+					'insta': get_insta(college_name)}
 		return render(request , "analysis/display.html" , context)
 
 

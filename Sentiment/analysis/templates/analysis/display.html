@@ -131,6 +131,12 @@
 </div>
 {{ youtube|safe }}
 
+<ul>
+{% for key,value in insta.items %}
+	<li>instagram photos for hashtag #{{ key }} is {{ value }}</li>
+{% endfor %}
+</ul>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 
