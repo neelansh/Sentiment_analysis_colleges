@@ -175,8 +175,8 @@ var pichart_2 = [];
 		var fb_data = {{posts_text | safe}}
 
 		console.log(fb_data)
-		var positive = 10;
-		var negative = 10;
+		var positive = 0;
+		var negative = 0;
 	  var count = 0 ;
 		var send_text = "";
 		var totalposts = fb_data.length;
@@ -191,7 +191,7 @@ var pichart_2 = [];
 			else {
 				send_text = post.message;
 			}
-	/**			$.ajax({
+				$.ajax({
 					url: "https://community-sentiment.p.mashape.com/text/",
 					method: "POST",
 					data: {
@@ -225,10 +225,10 @@ var pichart_2 = [];
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
 					}
-				});**/
+				});
 
 				})
-				calcresults();
+
 			})
 
 			function calcresults(){
@@ -246,9 +246,7 @@ var pichart_2 = [];
 					$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
 				}
 
-				pichart_2[0] = ['Sentiment Type', 'Percent'];
-				pichart_2[1] = ['Positive', positive];
-				pichart_2[2] = ['Negative', negative];
+
 			}
 //			console.log(count);
 
@@ -347,9 +345,12 @@ var pichart_2 = [];
 	}
 
 	$('.pichart').click(function(){
+		pichart_2[0] = ['Sentiment Type', 'Percent'];
+		pichart_2[1] = ['Positive', positive];
+		pichart_2[2] = ['Negative', negative];
+		console.log(pichart_2);
 
-
-
+		calcresults();
 		drawChart_2();
 	})
 
