@@ -18,10 +18,10 @@ def get_tweets(query):
 	if twt.objects.filter(institute_name__iexact = query).count() >= 1:
 		print("institute already exists")
 		return
-	queryPostiive = '#' + query + ':)'
+	queryPostiive =  query + ':)'
 	twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
 	data = twitter.search(q=queryPostiive, count='20')
-	
+
 	# twt.objects.all().delete()
 	t = twt(institute_name = query,twitter_json = json.dumps(data))
 	t.save()
