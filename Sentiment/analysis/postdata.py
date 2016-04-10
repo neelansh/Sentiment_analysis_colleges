@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBAMtZB9JZCXfbMOb3cpp0D52nc4gSEG300heIMwKUkIZANiggPqGWazOp0LdeQMJKZBSPNwzfIStUzS0PNZCZAZCXYpDZCBmRHXsxPApRRAl36zOZAYLZCPHpBnYD4efR6WX0hc2AMxOaNxFgGmW0GqXJ2dv77bkCh9qQZDZD'
+    'EAACEdEose0cBAFG5oQNZARG651gtPDwc8fRSvwrZAqK41Qnasl560oVT1Lz0QJdrq07dZC2fNZChDtOHdZCakOZBE8dqY6vTeZCxgRqupeGFDcVpy6DPdj2ERzhRQhzEV5PcO2AQMKCyFxDi7sIwxMZAAvNBFCJOa0z4aZBzYLZByZBGgZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
@@ -28,6 +28,7 @@ def get_posts(query):
     # return_pages = {'data':[]}
     print_page(result)
     # pages.objects.all().delete()
+    i=0;
     for res in result['data']:
         # if res['category'] and res['category'] in valid_category:
         engagementUrl = 'https://graph.facebook.com/' + res['id'] \
@@ -37,9 +38,9 @@ def get_posts(query):
         # return_pages['data'].append(page_result)
         try:
             p = pages(institute_name = query , page_id = page_result['id'] , page_name = page_result['name'] , page_posts_json = json.dumps(page_result['posts']) , page_category = page_result['category'] , page_likes = page_result['engagement']['count'] , page_json = json.dumps(page_result))
+            p.save()
         except Exception:
-            pass
-        p.save()
+            print(Exception)
         # with open('data.txt', 'a') as outfile:
         #     json.dump(result, outfile)
         # collegeData += str(result)

@@ -12,7 +12,7 @@ def get_insta(query):
 	data = {}
 	for res in result['data']:
 		count=count+1
-		if(count<=5):
+		if(count<=10):
 			# print('name of the hashtag is '+ res['name'] + ' and number of related media is '+str(res['media_count']))
 			if(res['name'] in data.keys()):
 				data[res["name"]] = data[res["name"]] + res['media_count']
@@ -21,5 +21,6 @@ def get_insta(query):
 		else:
 			break
 	return data	
+
 
 # get_insta("stanford university")

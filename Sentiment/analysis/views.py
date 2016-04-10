@@ -12,6 +12,7 @@ from django.db.models import Sum
 from .youtube import get_link
 from django.db.models import Q
 from .insta3 import get_insta
+from .flickr import get_flickr
 
 # Create your views here.
 @csrf_exempt
@@ -40,7 +41,8 @@ def home(request):
 					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
 					'total_tweets': tweets.objects.filter(institute = twitter_obj).count(),
 					'youtube': get_link(college_name_full),
-					'insta': get_insta(college_name)}
+					'insta': get_insta(college_name),
+					'flickr': get_flickr(college_name)}
 		return render(request , "analysis/display.html" , context)
 
 
@@ -119,7 +121,10 @@ def get_total_posts(pages):
 def get_posts_text(pages):
 	posts_text = []
 	for i in range(2):
-		posts_text.append(pages[i]['posts']['data'])
+		try:
+			posts_text.append(pages[i]['posts']['data'])
+		except Exception:
+			print(Exception)
 	# posts_text = pages[0]['posts']['data']
 	return posts_text
 
