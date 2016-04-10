@@ -69,7 +69,10 @@ def compare(request):
 					'total_posts': get_total_posts(json_array),
 					'posts_text': get_posts_text(json_array),
 					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
-					'total_tweets': tweets.objects.filter(institute = twitter_obj).count()}
+					'total_tweets': tweets.objects.filter(institute = twitter_obj).count()
+					'youtube': get_link(college_name_full),
+					'insta': get_insta(college_name),
+					'flickr': get_flickr(college_name)}
 
 		college_name = request.POST.get("college_name_2" , "")
 		
@@ -89,6 +92,9 @@ def compare(request):
 		context['posts_text_2'] = get_posts_text(json_array)
 		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))
 		context['total_tweets_2'] = tweets.objects.filter(institute = twitter_obj).count()
+		context['youtube_2'] = get_link(college_name)
+		context['insta_2'] = get_insta(college_name)
+		context['flickr_2'] = get_flickr(college_name)
 		return render(request , "analysis/display2.html" , context)
 
 def get_fullform(name):
@@ -133,3 +139,8 @@ def get_total_retweets(twitter_data):
 	for tweet in twitter_data['statuses']:
 		count = count + tweet['retweet_count']
 	return count
+
+def get_most_activeuser(college_name):
+	t = tweets.objects.filter(institute = twitter.objects.get(institute_name = college_name))
+	result = t.annotate(num_tweets = Count("user_id")).order_by('-num_tweets')[0]
+	return result
