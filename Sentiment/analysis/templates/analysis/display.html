@@ -70,6 +70,9 @@
 		padding-top: 5em;
 
 	}
+	.graphButton{
+		padding:30px;
+	}
 </style>
 <div class="container">
 	<div class="row">
@@ -78,7 +81,10 @@
 				<div class="college_name">
 					{{institute_name}}
 				</div>
-				total number of Facebook page likes are : {{total_likes}}
+			Facebook page likes are : {{total_likes}}<br>
+					number of Tweets : {{total_tweets}}<br>
+			number of Retweets : {{total_retweet_count}}<br>
+				Count of Facebook Posts : {{total_posts}}<br>
 
 
 			</div>
@@ -88,10 +94,10 @@
 	<div class="col-md-6">
 		<div class="sentiment">
 			<div class="result-title">
-				SENTIMENT ANALAYSIS RESULT
+				SENTIMENT ANALYSIS RESULT
 			</div>
 				<div class="result">
-					POSITIVE <i class="smiley fa fa-smile-o"></i>
+
 				</div>
 			</div>
 		</div>
@@ -111,6 +117,14 @@
 
 		</div>
 	</div>
+	<div class="row graphButton">
+		<center>
+		<button type="button" class="graph" name="button" style="border: medium none; background-color: rgb(26, 35, 126); text-transform: uppercase; color: white ! important; letter-spacing: 4px; text-indent: 4px; font-size: 18px! important; font-weight:500 !important;">Click to generate graph</button>
+	</div>
+	<div class="row"><center>
+		<div id="line_top_x"></div>
+
+	</div>
 </div>
 
 
@@ -119,6 +133,12 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+
+		$('.graph').click(function(){
+			google.charts.load('current', {'packages':['line']});
+			google.charts.setOnLoadCallback(drawChart);
+		})
+
 		var False = false;
 		var True = true;
 		var None = null;
@@ -132,44 +152,44 @@
 		var positive = 0;
 		var negative = 0;
 	  var count = 0 ;
-		var totalposts = fb_data.length * 5;
+		var send_text = "";
+		var totalposts = fb_data.length;
 		fb_data.forEach(function(data) {
+			console.log(data.length);
 			data.forEach(function(post){
 			//	console.log(post.message)
-				$.ajax({
+	//		console.log(post);
+			if(post.messsage === undefined){
+				send_text = post.name;
+			}
+			else {
+				send_text = post.message;
+			}
+	/**			$.ajax({
 					url: "https://community-sentiment.p.mashape.com/text/",
 					method: "POST",
 					data: {
-						txt: post.message
+						txt: send_text
 					},
 					success: function(data) {
-						console.log(data);
+					//	console.log(data);
 						if(data.result.sentiment=='Positive'){
 							positive++;
-							console.log(positive);
+							console.log("P" + positive);
 						}
-						else {
+						else if(data.result.sentiment == 'Negative') {
 							negative++;
-							console.log(negative);
+							console.log("N" + negative);
+						}
+						else if(data.result.sentiment == 'Neutral') {
+							negative++;
+							positive++;
+							console.log("Neutral");
 						}
 						count++;
-					//	console.log(count);
-						//console.log(totalposts);
-						if(count==totalposts-1){
-					//		console.log("In If")
-							if(positive>negative){
-						//		console.log('P');
-								$('.result').html('POSITIVE <i class="smiley fa fa-smile-o"></i>');
-							}
-							else if(positive<negative){
-							//	console.log('N');
-								$('.result').html('NEGATIVE <i class="smiley fa fa-frown-o"></i>');
-							}
-							else if(positive==negative){
-							//	console.log('N');
-								$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
-							}
-						}
+				//		console.log(count);
+					//	console.log(totalposts);
+
 
 
 					},
@@ -179,12 +199,28 @@
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("X-Mashape-Authorization", "M53xm3Zeclmsh34NcEidLyPDgU6Pp1lsBdpjsnqmaNPfKZh1Hj");
 					}
-				});
+				});**/
 
 				})
+				calcresults();
 			})
 
-			console.log(count);
+			function calcresults(){
+				console.log("Calc");
+				if(positive>negative){
+			//		console.log('P');
+					$('.result').html('POSITIVE <i class="smiley fa fa-smile-o"></i>');
+				}
+				else if(positive<negative){
+				//	console.log('N');
+					$('.result').html('NEGATIVE <i class="smiley fa fa-frown-o"></i>');
+				}
+				else if(positive==negative){
+				//	console.log('N');
+					$('.result').html('NEUTRAL <i class="smiley fa fa-meh-o"></i>');
+				}
+			}
+//			console.log(count);
 
 			var cloud = {
 
@@ -205,7 +241,7 @@
 			twitterArr.forEach(function(word){
 
 				if(cloud[word]!==undefined){
-			cloud[word] ++;
+			cloud[word]++;
 				}
 				else if(cloud[word]==undefined){
 					cloud[word] =1 ;
@@ -233,10 +269,65 @@
       width: 800,
       height: 250
     });
+
+
+		var chatArr = [];
+		var k = 0;
+		twitter_data.statuses.forEach(function(val){
+			var time = new Date(val.created_at).getMinutes();
+			var rtcount = val.retweet_count;
+			chatArr.push([k, rtcount]);
+			k++;
+			if(k==twitter_data.statuses.length -1){
+
+			}
+
+
+		})
+	console.log(chatArr);
+
+	function drawChart() {
+
+		var data = new google.visualization.DataTable();
+			data.addColumn('number', 'Time');
+
+		data.addColumn('number', 'Retweets');
+
+
+
+		data.addRows(chatArr);
+
+		var options = {
+			chart: {
+				title: 'Retweets Counter',
+				subtitle: 'in clicks'
+			},
+			width: 900,
+			height: 500,
+			axes: {
+				x: {
+					0: {side: 'top'}
+				}
+			}
+		};
+
+		var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+		chart.draw(data, options);
+	}
+
+
 	});
 
 
 </script>
 
+
+
+    <script type="text/javascript">
+
+
+
+  </script>
 
 {% endblock %}

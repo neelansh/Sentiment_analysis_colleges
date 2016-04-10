@@ -1,5 +1,10 @@
 {% extends "common/base.html" %}
 {% block content %}
+<style media="screen">
+.intro{
+	padding-top: 0em !important;
+}
+</style>
 <div class="container">
 	<div class="row content">
 
@@ -10,8 +15,8 @@
 			<div class="search">
 				<center>
 				<form action = '{% url "compare" %}' method = "POST">
-					<input  style="border-top: medium none ; border-bottom: 1px solid black ! important; border-left: medium none; border-right: medium none; width: 600px;" name = "college_name" type = "text" placeholder = "TYPE NAME OF A FIRST COLLEGE">
-					<input  style="border-top: medium none ; border-bottom: 1px solid black ! important; border-left: medium none; border-right: medium none; width: 600px;" name = "college_name_2" type = "text" placeholder = "TYPE NAME OF A SECOND COLLEGE">
+					<input  style="border-top: medium none ; border-bottom: 1px solid black ! important; border-left: medium none; border-right: medium none; width: 600px;" name = "college_name" type = "text" placeholder = "TYPE NAME OF FIRST COLLEGE"><br><br><br>
+					<input  style="border-top: medium none ; border-bottom: 1px solid black ! important; border-left: medium none; border-right: medium none; width: 600px;" name = "college_name_2" type = "text" placeholder = "TYPE NAME OF SECOND COLLEGE"><br><br>
 					<input id="submit" type = "submit" value= "GO">
 				</form>
 

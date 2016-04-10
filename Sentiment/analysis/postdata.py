@@ -20,7 +20,7 @@ def get_posts(query):
         print("college already exists")
         return
     url = 'https://graph.facebook.com/search?q=' + query.replace(" " , "+") \
-        + '&type=page&limit=10'
+        + '&type=page&limit=5'
     parameters = {'access_token': TOKEN}
     r = requests.get(url, params=parameters)
     result = json.loads(r.text)
@@ -31,7 +31,7 @@ def get_posts(query):
     for res in result['data']:
         # if res['category'] and res['category'] in valid_category:
         engagementUrl = 'https://graph.facebook.com/' + res['id'] \
-        + '/?fields=id,name,posts.limit(5){name,message},engagement,category'
+        + '/?fields=id,name,posts.limit(10){name,message},engagement,category'
         q = requests.get(engagementUrl, params=parameters)
         page_result = json.loads(q.text)
         # return_pages['data'].append(page_result)
