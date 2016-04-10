@@ -141,7 +141,24 @@
 
 
 	</div>
+	<div class="row graphButton">
+		<center>
+		<button type="button" class="instachart" name="button" style="border: medium none; background-color: rgb(26, 35, 126); text-transform: uppercase; color: white ! important; letter-spacing: 4px; text-indent: 4px; font-size: 18px! important; font-weight:500 !important;">INSTAGRAM PRESENCE</button>
+	</div>
 	<div class="row">
+		<center>
+		<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+	</div>
+	<div class="row graphButton">
+		<center>
+		<button type="button" class="flickrchart" name="button" style="border: medium none; background-color: rgb(26, 35, 126); text-transform: uppercase; color: white ! important; letter-spacing: 4px; text-indent: 4px; font-size: 18px! important; font-weight:500 !important;">FLICKR PRESENCE</button>
+	</div>
+	<div class="row">
+		<center>
+		<div id="columnchart_material_2" style="width: 800px; height: 500px;"></div>
+	</div>
+	<div class="row">
+		<br><br>
 		<div class="result-title">
 			<center>
 			MOST VIEWED YOUTUBE VIDEO RELATED TO SEARCH TERM
@@ -151,29 +168,29 @@
 			{{ youtube|safe }}
 		</div>
 	</div>
+	<div class="row">
+
+	</div>
 </div>
 
 
 </div>
 
 
-<ul>
-{% for key,value in insta.items %}
-	<li>instagram photos for hashtag #{{ key }} is {{ value }}</li>
-{% endfor %}
-</ul>
-
-<p> total pages retaled to {{ institute_name }} on flickr are {{ flickr.no_pages }}</p>
-<p> total photos retaled to {{ institute_name }} on flickr are {{ flickr.no_photos }}</p>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-google.charts.load("current", {packages:["corechart", "line"]});
+google.charts.load("current", {packages:["corechart", "line", "bar"]});
 var pichart_2 = [];
 		$('.graph').click(function(){
 		drawChart();
 		})
-
+    $('.instachart').click(function(){
+			drawChart_3();
+		})
+		$('.flickrchart').click(function(){
+			drawChart_4();
+		})
 		var False = false;
 		var True = true;
 		var None = null;
@@ -258,7 +275,29 @@ var pichart_2 = [];
 
 			}
 //			console.log(count);
+/**
+fb_data.forEach(function(val){
+val.forEach(function(value)
+post = value["message"]split(" ").filter(function(cur){
+	if(cur.search('RT')) return true;
 
+
+}).filter(function(cur){
+		if(cur.search('@')) return true;
+}).filter(function(cur){
+	if(cur.search('http')) return true;
+});
+
+fbArr.forEach(function(word){
+
+	if(cloud[word]!==undefined){
+cloud[word]++;
+	}
+	else if(cloud[word]==undefined){
+		cloud[word] =1 ;
+	}
+})
+**/
 			var cloud = {
 
 			}
@@ -408,6 +447,61 @@ var pichart_2 = [];
 				 chart.draw(data, options);
 				 chart_2.draw(data_2, options_2);
 			 }
+var instaitem = {{insta | safe}}
+console.log(instaitem);
+var insta = Object.keys(instaitem);
+var instadata = [];
+instadata.push(["Account", "Photos Shared"])
+insta.forEach(function(val){
+	instadata.push([val, instaitem[val]]);
+})
+
+
+var flickritems = {{flickr|safe}}
+console.log("Flcikr");
+console.log(flickritems);
+flickrdata = [];
+flickrdata.push(['Photos & Pages', 'Count'])
+flickrdata.push(['Photos', flickritems["no_photos"]]);
+flickrdata.push(['Pages', flickritems["no_pages"]]);
+function drawChart_3(){
+
+	var data = google.visualization.arrayToDataTable(instadata);
+
+ var options = {
+	 chart: {
+		 title: 'Presence on Instagram',
+		 subtitle: 'Shares related to search query',
+	 }
+ };
+
+ var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+ chart.draw(data, options);
+
+
+		}
+
+
+		function drawChart_4(){
+
+			var data = google.visualization.arrayToDataTable(flickrdata);
+
+		 var options = {
+			 chart: {
+				 title: 'Presence on Flickr',
+				 subtitle: 'Photos Shared',
+			 }
+		 };
+
+		 var chart = new google.charts.Bar(document.getElementById('columnchart_material_2'));
+
+		 chart.draw(data, options);
+
+
+				}
+
+
 
 	});
 
