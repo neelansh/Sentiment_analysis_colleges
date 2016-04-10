@@ -57,7 +57,7 @@ def compare(request):
 		return render(request , "analysis/compare.html")
 	else:
 		college_name = request.POST.get("college_name" , "")
-
+		college_name_full = get_fullform(college_name)
 		get_posts(college_name)
 		get_tweets(college_name)
 
@@ -72,7 +72,7 @@ def compare(request):
 					'total_likes': get_total_likes(json_array),
 					'total_posts': get_total_posts(json_array),
 					'posts_text': get_posts_text(json_array),
-					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
+					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))["retweet_count__sum"],
 					'total_tweets': tweets.objects.filter(institute = twitter_obj).count(),
 					'youtube_viewed': get_link_viewed(college_name_full),
 					'youtube_relevant': get_link_relevant(college_name_full),
@@ -97,7 +97,7 @@ def compare(request):
 		context['total_likes_2'] = get_total_likes(json_array)
 		context['total_posts_2'] = get_total_posts(json_array)
 		context['posts_text_2'] = get_posts_text(json_array)
-		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))
+		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))["retweet_count__sum"]
 		context['total_tweets_2'] = tweets.objects.filter(institute = twitter_obj).count()
 		context['youtube_2'] = get_link_viewed(college_name_full),
 		context['youtube_relevant_2'] = get_link_relevant(college_name_full)
