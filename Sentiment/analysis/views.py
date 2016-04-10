@@ -24,14 +24,14 @@ def home(request):
 	else:
 		college_name = request.POST.get("college_name" , "")
 		college_name_full = get_fullform(college_name)
-		
+
 		get_posts(college_name_full)
 		get_tweets(college_name)
-		
+
 		json_array = get_json_array(college_name_full)
 		twitter_obj = twitter.objects.get(institute_name = college_name)
 		twitter_data = json.loads(twitter_obj.twitter_json)
-		
+
 		context = { 'institute_name': college_name,
 					'number_of_pages' : pages.objects.filter(institute_name = college_name_full).count(),
 					'json_obj': json_array,
@@ -57,14 +57,14 @@ def compare(request):
 		return render(request , "analysis/compare.html")
 	else:
 		college_name = request.POST.get("college_name" , "")
-		
+
 		get_posts(college_name)
 		get_tweets(college_name)
-		
+
 		json_array = get_json_array(college_name)
 		twitter_obj = twitter.objects.get(institute_name = college_name)
 		twitter_data = json.loads(twitter_obj.twitter_json)
-		
+
 		context = { 'institute_name': college_name,
 					'number_of_pages' : pages.objects.filter(institute_name = college_name).count(),
 					'json_obj': json_array,
@@ -79,10 +79,10 @@ def compare(request):
 					'flickr': get_flickr(college_name)}
 
 		college_name = request.POST.get("college_name_2" , "")
-		
+
 		get_posts(college_name)
 		get_tweets(college_name)
-		
+
 		json_array = get_json_array(college_name)
 		twitter_obj = twitter.objects.get(institute_name = college_name)
 		twitter_data = json.loads(twitter_obj.twitter_json)

@@ -73,6 +73,43 @@
 	.graphButton{
 		padding:30px;
 	}
+	.resTitle{
+		font-family: 'PT Sans';
+		text-transform: uppercase;
+		letter-spacing: 3px;
+		text-indent: 3px;
+		font-size: 16px;
+	}
+
+	.twitter_username{
+		background-color: darkblue;
+		padding:10px;
+		color:white;
+		font-family: 'PT Sans';
+		font-size: 14px;
+		border-left: 5px yellow solid;
+	}
+	.tweet_text{
+		background-color: green;
+		padding:10px;
+		color:white;
+		font-family: 'PT Sans';
+		font-size: 14px;
+		border-left: 5px crimson solid;
+	}
+	.list{
+		padding:10px;
+	}
+.twitter_username:hover{
+	border-left:5px solid red;
+}
+
+.tweet_text:hover{
+	border-left:5px solid orange;
+}
+.twitterPop{
+	padding-top: 2em;
+}
 </style>
 <div class="container">
 	<div class="row">
@@ -113,6 +150,40 @@
 
 	</div>
 		<div class="hey" id="keywords">
+
+		</div>
+	</div>
+	<div class="row twitterPop">
+		<div class="result-title">
+			TWITTER POPULARITY
+		</div>
+		<div class="">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="resTitle">
+							Users who tweeted maximum number of times
+					</div>
+					<div class="list">
+						{% for user in most_active_tweeter %}
+					<div class="twitter_username"		>{{ user.user_name }}</div><br>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="resTitle">
+							Most retweeted tweets
+					</div>
+					<div class="list">
+						{% for tweets in most_retweeted_tweets %}
+					<div class="tweet_text">		{{ tweets.text }}</div><br>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+
+
+
+
 
 		</div>
 	</div>
@@ -181,16 +252,7 @@
 	</div>
 </div>
 
-<p>
-	Users who tweeted maximum number of times : <br>
-	{% for user in most_active_tweeter %}
-		{{ user.user_name }}<br><br>
-	{% endfor %}
-	Most retweeted tweets:<br>
-	{% for tweets in most_retweeted_tweets %}
-		{{ tweets.text }}<br><br>
-	{% endfor %}
-</p>
+
 
 </div>
 
@@ -200,6 +262,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var cloud = {
+
+		}
 google.charts.load("current", {packages:["corechart", "line", "bar"]});
 var pichart_2 = [];
 		$('.graph').click(function(){
@@ -221,6 +286,7 @@ var pichart_2 = [];
 		var fb_data = {{posts_text | safe}}
 
 		console.log(fb_data)
+
 		var positive = 0;
 		var negative = 0;
 	  var count = 0 ;
@@ -274,7 +340,7 @@ var pichart_2 = [];
 				});
 
 				})
-
+fbwordle();
 			})
 
 			function calcresults(){
@@ -318,9 +384,36 @@ cloud[word]++;
 	}
 })
 **/
-			var cloud = {
 
+
+function fbwordle(){
+	fb_data.forEach(function(val){
+//	console.log(val);
+	val.forEach(function(post){
+		console.log(post);
+		if(post.message){
+			fbArr = post.message.split(" ");
+			fbArr.forEach(function(data){
+				if(data!=='the'&& data!=='from' && data!=='and' &&data!=='in' &&data!=='your' &&data!=='me' &&
+			data!=='or'&& data!=='is' && data!=='with' &&data!=='on' &&data!=='to' &&data!=='have'&&
+		data!=='of'&& data!=='you' && data!=='for' &&data!=='be' &&data!=='a' &&data!=='that'&&
+	data!=='them'&& data!=='then' && data!=='those' &&data!=='at' &&data!=='are' &&data!=='all'){
+				if(cloud[data]!==undefined){
+					cloud[data]++;
+				}
+				else{
+					cloud[data]=1;
+				}
 			}
+			})
+		}
+	})
+	})
+}
+
+
+
+
 			twitterArr=[];
 			var tCount = 0;
 			twitter_data.statuses.forEach(function(val){
@@ -347,6 +440,8 @@ cloud[word]++;
 
 
 			});
+
+
 			var makeCloud = [];
 			makeCloud = Object.keys(cloud);
 			var jcloud= [];
@@ -358,7 +453,7 @@ cloud[word]++;
 				};
 				jcloud.push(temp);
 			})
-		//	console.log(jcloud);
+			console.log(jcloud);
 			//console.log($('#keywords'));
 
 			$('#keywords').jQCloud(jcloud,{
