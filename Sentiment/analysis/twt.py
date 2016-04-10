@@ -15,7 +15,7 @@ ACCESS_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAKTUuQAAAAAAtVMF7IGhX%2B6Mg1aqiqTByucW%2FsE%
 
 
 def get_tweets(query):
-	if twt.objects.filter(institute_name = query).count() >= 1:
+	if twt.objects.filter(institute_name__iexact = query).count() >= 1:
 		print("institute already exists")
 		return
 	queryPostiive = '#' + query + ':)'

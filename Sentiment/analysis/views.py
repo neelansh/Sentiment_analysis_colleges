@@ -4,12 +4,13 @@ from django.views.decorators.http import require_http_methods
 from .postdata import get_posts
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import pages, twitter , tweets
+from .models import pages, twitter , tweets, fullform
 import json
 from json import JSONEncoder
 from .twt import get_tweets
 from django.db.models import Sum
 from .youtube import get_link
+from django.db.models import Q
 
 # Create your views here.
 @csrf_exempt
@@ -19,23 +20,25 @@ def home(request):
 		return render(request , "analysis/home.html")
 	else:
 		college_name = request.POST.get("college_name" , "")
+		college_name_full = get_fullform(college_name)
 		
-		get_posts(college_name)
+		get_posts(college_name_full)
 		get_tweets(college_name)
 		
-		json_array = get_json_array(college_name)
+		json_array = get_json_array(college_name_full)
 		twitter_obj = twitter.objects.get(institute_name = college_name)
 		twitter_data = json.loads(twitter_obj.twitter_json)
 		
 		context = { 'institute_name': college_name,
-					'number_of_pages' : pages.objects.filter(institute_name = college_name).count(),
+					'number_of_pages' : pages.objects.filter(institute_name = college_name_full).count(),
 					'json_obj': json_array,
 					'tweet_json': twitter_data,
 					'total_likes': get_total_likes(json_array),
 					'total_posts': get_total_posts(json_array),
 					'posts_text': get_posts_text(json_array),
 					'total_retweet_count': tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count')),
-					'total_tweets': tweets.objects.filter(institute = twitter_obj).count()}
+					'total_tweets': tweets.objects.filter(institute = twitter_obj).count(),
+					'youtube': get_link(college_name_full)}
 		return render(request , "analysis/display.html" , context)
 
 
@@ -83,6 +86,13 @@ def compare(request):
 		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))
 		context['total_tweets_2'] = tweets.objects.filter(institute = twitter_obj).count()
 		return render(request , "analysis/display2.html" , context)
+
+def get_fullform(name):
+	if(fullform.objects.filter(short_form__iexact = name).exists()):
+		return fullform.objects.filter(short_form__iexact = name)[0].full_form
+	else:
+		return name
+
 
 def get_json_array(college_name):
 	res = []

@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBAM4ZBWGtvOzhO6szOwnSZBN9C17l9vZB4Pg9JOybhnKVBO1oICCzFjnOpN1dBZA5q2VdWlgOpi10f1jZBOMa5f4HiEgkHN5GldY2ZAbZBGdQLUnkFsZBELvpZCZCACckFHsX7W1K70V8x4HuL0mge3APsl7PiJMcAXOwZDZD'
+    'EAACEdEose0cBAMtZB9JZCXfbMOb3cpp0D52nc4gSEG300heIMwKUkIZANiggPqGWazOp0LdeQMJKZBSPNwzfIStUzS0PNZCZAZCXYpDZCBmRHXsxPApRRAl36zOZAYLZCPHpBnYD4efR6WX0hc2AMxOaNxFgGmW0GqXJ2dv77bkCh9qQZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
@@ -16,7 +16,7 @@ def print_page(pages):
         print(page['category'])
 
 def get_posts(query):
-    if pages.objects.filter(institute_name = query).count() >= 1:
+    if pages.objects.filter(institute_name__iexact = query).count() >= 1:
         print("college already exists")
         return
     url = 'https://graph.facebook.com/search?q=' + query.replace(" " , "+") \

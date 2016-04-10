@@ -34,3 +34,10 @@ class tweets(models.Model):
 	institute = models.ForeignKey('twitter')
 	def __str__(self):
 		return self.user_name
+
+
+class fullform(models.Model):
+	short_form = models.CharField(max_length = 50 , default = "" , unique = True)
+	full_form = models.CharField(max_length = 100 , default = "")
+	def __str__(self):
+		return self.short_form

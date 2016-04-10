@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 def get_link(query):
-	search_query=query
-	i=requests.get("https://www.youtube.com/results?q="+search_query+"&sp=CAM%253D")
+	search_query=query.replace(' ' , '+')
+	i=requests.get("https://www.youtube.com/results?sp=CAM%253D&q="+search_query)
 	soup=BeautifulSoup(i.text)
 	youtubelinks=soup.find_all("a")
 	count=0;
@@ -20,3 +20,4 @@ def get_link(query):
 	return result_link
 
 
+#"&sp=CAM%253D"
