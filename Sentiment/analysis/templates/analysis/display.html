@@ -229,20 +229,25 @@
 	</div>
 	<div class="row">
 		<br><br>
+		<br><br>
 		<div class="result-title">
 			<center>
-			MOST VIEWED YOUTUBE VIDEO RELATED TO SEARCH TERM
+		YOUTUBE PRESENCE
 		</div>
 		<div class="embed-video">
 			<center>
-			<p>most viewed top 5:</p>
+			<div class="resTitle">
+				MOST VIEWED (5)
+			</div>
 			{% for link in youtube_viewed %}
-			<iframe width="420" height="345" src="{{ link|safe }}">
+			<iframe width="200" height="100" src="{{ link|safe }}">
 			</iframe>
 			{% endfor %}
-			<p>most relevant top 5:</p>
+		<div class="resTitle">
+			MOST RELEVANT (5)
+		</div>
 			{% for link in youtube_relevant %}
-			<iframe width="420" height="345" src="{{ link|safe }}">
+			<iframe width="200" height="100" src="{{ link|safe }}">
 			</iframe>
 			{% endfor %}
 		</div>
@@ -427,14 +432,18 @@ function fbwordle(){
 				if(cur.search('http')) return true;
 			});
 
-			twitterArr.forEach(function(word){
-
-				if(cloud[word]!==undefined){
+			twitterArr.forEach(function(data){
+				if(data!=='the'&& data!=='from' && data!=='and' &&data!=='in' &&data!=='your' &&data!=='me' &&
+			data!=='or'&& data!=='is' && data!=='with' &&data!=='on' &&data!=='to' &&data!=='have'&&
+		data!=='of'&& data!=='you' && data!=='for' &&data!=='be' &&data!=='a' &&data!=='that'&&
+	data!=='them'&& data!=='then' && data!=='those' &&data!=='at' &&data!=='are' &&data!=='all'){
+				if(cloud[data]!==undefined){
 			cloud[word]++;
 				}
-				else if(cloud[word]==undefined){
+				else if(cloud[data]==undefined){
 					cloud[word] =1 ;
 				}
+			}
 			})
 //console.log(cloud);
 
