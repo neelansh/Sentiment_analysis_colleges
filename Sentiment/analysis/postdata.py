@@ -6,7 +6,7 @@ import json
 from .models import pages
 
 TOKEN = \
-    'EAACEdEose0cBALK2DvsSiy70pKEjR1FPPBVyacSGyuAg71g3zA7fsS0RyGruuCAtZBuEWmCnyDpSZAZArqubKc21xB9bg4vEaTIRzJbpAeFWtTdiZAKtyi6UK1pBM1sCW6B4prNxKWv0IYoRVpIHTaDTNqQJps9aJCooElYFNQZDZD'
+    'EAACEdEose0cBAPOqVZAQWW3nZC0M8LZBrBZBfKEnhIMPzvMLqwlBKkJrGVvsUTTpSbHyuXjGvDin0lO2ileaHMFZB6FtR9zwm1KZCITZBVQvqhKypuAEGJu7HE5ALNlFH0DTe1PlmyMtZCiC2s6JbZARkakrLsHaYwtmXQVYwt4ZBnjQZDZD'
 
 valid_category = ['Education' , 'Community' , 'Organisation' , 'University' , 'Institute']
 
@@ -20,7 +20,7 @@ def get_posts(query):
         print("college already exists")
         return
     url = 'https://graph.facebook.com/search?q=' + query.replace(" " , "+") \
-        + '&type=page&limit=5'
+        + '&type=page&limit=20'
     parameters = {'access_token': TOKEN}
     r = requests.get(url, params=parameters)
     result = json.loads(r.text)
@@ -32,7 +32,7 @@ def get_posts(query):
     for res in result['data']:
         # if res['category'] and res['category'] in valid_category:
         engagementUrl = 'https://graph.facebook.com/' + res['id'] \
-        + '/?fields=id,name,posts.limit(10){name,message},engagement,category'
+        + '/?fields=id,name,posts{name,message},engagement,category'
         q = requests.get(engagementUrl, params=parameters)
         page_result = json.loads(q.text)
         # return_pages['data'].append(page_result)

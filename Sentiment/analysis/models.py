@@ -22,7 +22,7 @@ class twitter(models.Model):
 		return self.institute_name
 
 class tweets(models.Model):
-	tweet_id = models.BigIntegerField(unique = True)
+	tweet_id = models.BigIntegerField()
 	favorited = models.BooleanField()
 	favorite_count = models.IntegerField()
 	retweeted = models.BooleanField()

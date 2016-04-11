@@ -2,7 +2,7 @@ import requests
 import json
 
 def get_flickr(query):
-	TEXT=query
+	TEXT=query.replace(" ", "+")
 	FORMAT='json'
 	METHOD='flickr.photos.search'
 

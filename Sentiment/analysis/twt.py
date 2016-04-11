@@ -18,22 +18,28 @@ def get_tweets(query):
 	if twt.objects.filter(institute_name__iexact = query).count() >= 1:
 		print("institute already exists")
 		return
-	queryPostiive =  query + ':)'
+	queryPostiive =  query
 	twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-	data = twitter.search(q=queryPostiive, count='20')
+	data = twitter.search(q=queryPostiive, count='100')
 
 	# twt.objects.all().delete()
-	t = twt(institute_name = query,twitter_json = json.dumps(data))
-	t.save()
+	try:
+		t = twt(institute_name = query,twitter_json = json.dumps(data))
+		t.save()
+	except Exception:
+		print(Exception)
 	for tweet in data['statuses']:
-		tw = tweets(tweet_id = tweet['id'],
-					favorited = tweet['favorited'],
-					favorite_count = tweet['favorite_count'],
-					retweeted = tweet['retweeted'],
-					retweet_count = tweet['retweet_count'],
-					source = tweet['source'],
-					text = tweet['text'],
-					user_name = tweet['user']['name'],
-					user_id = tweet['user']['id'],
-					institute = t)
-		tw.save()
+		try:
+			tw = tweets(tweet_id = tweet['id'],
+						favorited = tweet['favorited'],
+						favorite_count = tweet['favorite_count'],
+						retweeted = tweet['retweeted'],
+						retweet_count = tweet['retweet_count'],
+						source = tweet['source'],
+						text = tweet['text'],
+						user_name = tweet['user']['name'],
+						user_id = tweet['user']['id'],
+						institute = t)
+			tw.save()
+		except Exception:
+			print(Exception)

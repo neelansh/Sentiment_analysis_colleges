@@ -4,7 +4,7 @@ import json
 def get_insta(query):
 	# query='stanford university'
 	TOKEN='1257820698.1fb234f.2c34cf637f7f41dbaec58589af50eded'
-	url = 'https://api.instagram.com/v1/tags/search?q=' +query  
+	url = 'https://api.instagram.com/v1/tags/search?q=' +query.replace(" " , "+")  
 	parameters = {'access_token': TOKEN}
 	r = requests.get(url, params=parameters)
 	result = json.loads(r.text)
