@@ -110,6 +110,14 @@
 .twitterPop{
 	padding-top: 2em;
 }
+.hackathon{
+	padding:20px;
+	letter-spacing: 3px;
+	text-indent: 3px;
+	font-family: 'PT Sans';
+	text-transform: uppercase;
+	font-size: 19px;
+}
 </style>
 <div class="container">
 	<div class="row">
@@ -229,20 +237,25 @@
 	</div>
 	<div class="row">
 		<br><br>
+		<br><br>
 		<div class="result-title">
 			<center>
-			MOST VIEWED YOUTUBE VIDEO RELATED TO SEARCH TERM
+		YOUTUBE PRESENCE
 		</div>
 		<div class="embed-video">
 			<center>
-			<p>most viewed top 5:</p>
+			<div class="resTitle">
+				MOST VIEWED (5)
+			</div>
 			{% for link in youtube_viewed %}
-			<iframe width="420" height="345" src="{{ link|safe }}">
+			<iframe width="200" height="100" src="{{ link|safe }}">
 			</iframe>
 			{% endfor %}
-			<p>most relevant top 5:</p>
+		<div class="resTitle">
+			MOST RELEVANT (5)
+		</div>
 			{% for link in youtube_relevant %}
-			<iframe width="420" height="345" src="{{ link|safe }}">
+			<iframe width="200" height="100" src="{{ link|safe }}">
 			</iframe>
 			{% endfor %}
 		</div>
@@ -252,7 +265,13 @@
 	</div>
 </div>
 
+<div class="foot">
 
+		<div class="hackathon">
+		<center>		DATA HACKATHON | IGDTU | 11 APRIL 2016
+		</div>
+
+</div>
 
 </div>
 
@@ -427,14 +446,18 @@ function fbwordle(){
 				if(cur.search('http')) return true;
 			});
 
-			twitterArr.forEach(function(word){
-
-				if(cloud[word]!==undefined){
-			cloud[word]++;
+			twitterArr.forEach(function(data){
+				if(data!=='the'&& data!=='from' && data!=='and' &&data!=='in' &&data!=='your' &&data!=='me' &&
+			data!=='or'&& data!=='is' && data!=='with' &&data!=='on' &&data!=='to' &&data!=='have'&&
+		data!=='of'&& data!=='you' && data!=='for' &&data!=='be' &&data!=='a' &&data!=='that'&&
+	data!=='them'&& data!=='then' && data!=='those' &&data!=='at' &&data!=='are' &&data!=='all'){
+				if(cloud[data]!==undefined){
+			cloud[data]++;
 				}
-				else if(cloud[word]==undefined){
-					cloud[word] =1 ;
+				else if(cloud[data]==undefined){
+					cloud[data] =1 ;
 				}
+			}
 			})
 //console.log(cloud);
 
