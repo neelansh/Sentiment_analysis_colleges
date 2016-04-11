@@ -35,7 +35,7 @@ def get_link_viewed(query):
 			links.append(link)
 			count = count+1;
 	return list(set(links))
-		
+
 def get_link_relevant(query):
 	search_query=query.replace(' ' , '+')
 	i=requests.get("https://www.youtube.com/results?search_query="+search_query)
