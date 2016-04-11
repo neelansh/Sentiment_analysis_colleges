@@ -82,7 +82,7 @@ def compare(request):
 					'most_retweeted_tweets': get_most_retweeted(college_name)}
 
 		college_name = request.POST.get("college_name_2" , "")
-
+		college_name_full = get_fullform(college_name)
 		get_posts(college_name)
 		get_tweets(college_name)
 
@@ -99,7 +99,7 @@ def compare(request):
 		context['posts_text_2'] = get_posts_text(json_array)
 		context['total_retweet_count_2'] = tweets.objects.filter(institute = twitter_obj).aggregate(Sum('retweet_count'))["retweet_count__sum"]
 		context['total_tweets_2'] = tweets.objects.filter(institute = twitter_obj).count()
-		context['youtube_viewed_2'] = get_link_viewed(college_name_full),
+		context['youtube_viewed_2'] = get_link_viewed(college_name_full)
 		context['youtube_relevant_2'] = get_link_relevant(college_name_full)
 		context['insta_2'] = get_insta(college_name)
 		context['flickr_2'] = get_flickr(college_name)
