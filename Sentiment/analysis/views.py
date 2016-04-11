@@ -125,7 +125,8 @@ def get_json_array(college_name):
 
 def get_total_likes(pages):
 	total_likes=0
-	total_likes = total_likes + pages[0]['engagement']['count']
+	for page in pages:
+		total_likes = total_likes + page['engagement']['count']
 	return total_likes
 
 
